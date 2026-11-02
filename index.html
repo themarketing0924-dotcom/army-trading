@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>아미트레이딩</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: 애플 MacBook Pro Liquid Retina XDR 페이지(apple.com/kr)에서 측정한 타입 스케일·색·간격 + nocapital-join식 단계 안내 구조.
+   측정값: 80/64/48/40/32/28/21/19/17/14/12px, 600/400, 흑 #000·#1d1d1f·#121214·#f5f5f7, 회색 #86868b, 링크 #2997ff, 버튼 #0071e3 pill(980px), 섹션 패딩 112px */
+:root{
+  --black:#000;--d1:#1d1d1f;--d2:#121214;--light:#f5f5f7;
+  --fg:#f5f5f7;--gray:#86868b;--gray2:#d2d2d7;--dim:#6e6e73;
+  --cap:rgba(255,255,255,.56);--hair:rgba(255,255,255,.16);
+  --blue:#0071e3;--link:#2997ff;
+  --gx:51px;
+  --up:#ff453a;--down:#0a84ff;
+  --font:"SF Pro KR","SF Pro Display","SF Pro Text","SF Pro Icons","Apple SD Gothic Neo","Inter","Gothic A1","Apple Gothic","Noto Sans KR","Malgun Gothic","HY Gulim","Helvetica Neue",Helvetica,Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--black);color:var(--fg);font-family:var(--font);font-size:17px;line-height:1.58824;font-weight:400;letter-spacing:0;-webkit-font-smoothing:antialiased;overflow-x:hidden;word-break:keep-all}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:rgba(22,22,23,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+h1,h2,h3,h4,p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+a{color:inherit}
+.in{max-width:calc(980px + 2*var(--gx));margin:0 auto;padding-left:max(var(--gx),env(safe-area-inset-left,0px));padding-right:max(var(--gx),env(safe-area-inset-right,0px))}
+.in.wide{max-width:calc(1260px + 2*var(--gx))}
+.center{text-align:center}
+
+/* ---- Apple type scale (ko) ---- */
+.t-super{font-size:80px;line-height:1.15;letter-spacing:0;font-weight:600;text-wrap:balance}
+.t-elev{font-size:64px;line-height:1.17188;letter-spacing:0;font-weight:600;text-wrap:balance}
+.t-sec{font-size:48px;line-height:1.1875;letter-spacing:0;font-weight:600;text-wrap:balance}
+.t-red{font-size:40px;line-height:1.2;letter-spacing:0;font-weight:600;text-wrap:balance}
+.t-card{font-size:28px;line-height:1.25;letter-spacing:.007em;font-weight:600}
+.t-eb{font-size:21px;line-height:1.2858;letter-spacing:.011em;font-weight:600}
+.t-intro{font-size:21px;line-height:1.52381;letter-spacing:.011em;font-weight:400}
+.t-copy{font-size:21px;line-height:1.3;letter-spacing:.011em;font-weight:600;color:var(--gray)}
+.t-copy b,.t-copy strong{color:var(--fg);font-weight:600}
+.t-body{font-size:17px;line-height:1.58824;letter-spacing:0;font-weight:400;color:var(--gray)}
+.t-body b{color:var(--fg);font-weight:600}
+.t-small{font-size:14px;line-height:1.57143;font-weight:400;color:var(--gray)}
+.t-cap{font-size:12px;line-height:1.41667;font-weight:400;color:var(--cap)}
+@media (max-width:1068px){
+  .t-super{font-size:64px;line-height:1.17188}
+  .t-elev{font-size:48px;line-height:1.1875}
+  .t-sec{font-size:40px;line-height:1.2}
+  .t-red{font-size:32px;line-height:1.21875}
+  .t-card{font-size:24px;line-height:1.29167;letter-spacing:.009em}
+}
+@media (max-width:734px){
+  .t-super{font-size:48px;line-height:1.1875}
+  .t-elev{font-size:40px;line-height:1.2}
+  .t-sec{font-size:32px;line-height:1.21875}
+  .t-red{font-size:28px;line-height:1.25}
+  .t-card{font-size:21px;line-height:1.2858;letter-spacing:.011em}
+  .t-eb{font-size:19px;line-height:1.31579;letter-spacing:.012em}
+  .t-intro,.t-copy{font-size:19px;letter-spacing:.012em}
+}
+
+/* ---- sections ---- */
+.sec{position:relative;isolation:isolate;overflow:hidden;padding-block:144px}
+@media (max-width:1068px){.sec{padding-block:120px}}
+@media (max-width:734px){:root{--gx:24px}.sec{padding-block:112px}}
+.bg-black{background:var(--black)}.bg-d1{background:var(--d1)}.bg-d2{background:var(--d2)}
+.bg-light{background:var(--light);color:var(--d1)}
+.bg-light .t-copy{color:var(--gray)}.bg-light .t-copy b{color:var(--d1)}
+.bg-light .t-body{color:var(--dim)}.bg-light .t-body b{color:var(--d1)}
+.bg-light .t-cap{color:rgba(0,0,0,.56)}
+.sec canvas.bg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;margin:0 auto 48px;max-width:840px}
+.head .t-eb+*{margin-top:12px}
+.head h2+.t-copy,.head h2+.t-intro{margin-top:60px}
+@media (max-width:1068px){.head{margin-bottom:40px}}
+@media (max-width:734px){.head{margin-bottom:32px}.head h2+.t-copy,.head h2+.t-intro{margin-top:40px}}
+.head .t-sec,.head .t-copy,.head .t-intro{margin-left:auto;margin-right:auto}
+.ladder .lad:last-child:nth-child(odd){grid-column:1/-1}
+.head .t-eb{color:var(--fg)}
+.bg-light .head .t-eb{color:var(--d1)}
+
+/* reveal */
+.rv{opacity:.22;transform:translateY(32px);transition:opacity .9s cubic-bezier(.28,.11,.32,1) var(--d,0s),transform .9s cubic-bezier(.28,.11,.32,1) var(--d,0s)}
+.rv.vis{opacity:1;transform:none}
+.sc{will-change:transform,opacity;transform-origin:50% 60%}
+
+/* nav */
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(22,22,23,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+nav .in{display:flex;align-items:center;justify-content:space-between;height:44px;gap:16px}
+.brand{font-size:19px;line-height:1.2;font-weight:600;letter-spacing:.01em}
+.nl{display:flex;gap:28px;font-size:12px;line-height:1.33337}
+.nl a{text-decoration:none;color:rgba(245,245,247,.8)}
+.nl a:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:#fff;border-radius:980px;padding:12px 22px;font:inherit;font-size:17px;line-height:1.17648;font-weight:400;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .25s}
+.btn:hover{background:#0077ed}
+.btn.sm{font-size:14px;padding:6px 14px;line-height:1.42859}
+.btn.wide{width:100%}
+.btn[aria-disabled="true"]{background:#424245;color:#86868b;cursor:not-allowed}
+.lnk{color:var(--link);text-decoration:none;font-size:17px;line-height:1.23536}
+.lnk:hover{text-decoration:underline}
+.bg-light .lnk{color:#0066cc}
+.btn:focus-visible,.lnk:focus-visible,summary:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--link);outline-offset:3px}
+.cta{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:center;margin-top:32px}
+
+/* hero */
+.hero{padding-block:144px 112px}
+/* 애플 MacBook Pro 헤드라인 그라데이션 (스크린샷 기준 근사값) */
+:root{--hg:linear-gradient(172deg,#d6e8ff 0%,#8fb8ff 34%,#6482ff 68%,#6f5cf2 100%)}
+.hero h1.t-super,.bg-black h2.t-sec,.bg-d1 h2.t-sec,.bg-d2 h2.t-sec{background:var(--hg);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;font-weight:700;letter-spacing:-.012em}
+.hero h1 .grad{background:none;-webkit-text-fill-color:inherit}
+.grad{background:var(--hg);-webkit-background-clip:text;background-clip:text}
+.hero .t-eb{margin-bottom:16px}
+.hero h1.t-super{font-weight:700;letter-spacing:-.012em}
+.hero h1 .grad{font-weight:700}
+.hero .t-copy{max-width:640px;margin:24px auto 0}
+@media (max-width:734px){.hero{padding-block:104px 80px}}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 24px;text-align:center}
+.stat .t-body{margin-top:4px}
+@media (max-width:734px){.stats{grid-template-columns:minmax(0,1fr)}}
+
+/* statement */
+.statement .t-elev{text-align:center;max-width:22em;margin:0 auto;font-size:40px;line-height:1.2;letter-spacing:0}
+.statement{padding-block:112px!important}
+@media (max-width:1068px){.statement .t-elev{font-size:32px;line-height:1.22}}
+@media (max-width:734px){.statement .t-elev{font-size:26px;line-height:1.25}.statement{padding-block:88px!important}}
+.w{color:var(--dim);transition:color .25s linear}.w.on{color:var(--fg)}
+
+/* free stack */
+.stack{border-top:1px solid var(--hair)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:28px 0;border-bottom:1px solid var(--hair)}
+.row .l{min-width:0}
+.row .t-card{margin-bottom:4px}
+.row .r{display:flex;align-items:baseline;gap:16px;flex:none}
+.row .r s{font-size:17px;color:var(--gray)}
+.row .r em{font-style:normal;font-size:40px;line-height:1.2;font-weight:600}
+.row.total .r em{color:var(--link)}
+@media (max-width:734px){.row{flex-direction:column;align-items:flex-start;gap:8px}.row .r em{font-size:28px}}
+.why{display:grid;grid-template-columns:auto minmax(0,1fr);gap:48px;align-items:center;margin-top:112px}
+.why .big{font-size:80px;line-height:1.15;font-weight:600;display:flex;align-items:baseline;gap:8px}
+.why .big small{font-size:40px;font-weight:600}
+.why .t-red{margin-bottom:12px}
+@media (max-width:1068px){.why .big{font-size:64px}.why .big small{font-size:32px}}
+@media (max-width:734px){.why{grid-template-columns:minmax(0,1fr);gap:16px;margin-top:80px}.why .big{font-size:48px}.why .big small{font-size:28px}}
+
+/* cards */
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.tile{background:var(--d1);border-radius:28px;padding:40px;display:flex;flex-direction:column;gap:12px}
+.bg-d1 .tile,.bg-d2 .tile{background:#000}
+.bg-light .tile{background:#fff}
+.tile .t-card{margin-bottom:0}
+@media (max-width:734px){.grid2{grid-template-columns:minmax(0,1fr)}.tile{padding:28px;border-radius:24px}}
+.pclose{margin-top:56px;text-align:center}
+.srcs{margin-top:24px;text-align:center}
+.srcs a{color:var(--link)}
+
+/* steps */
+.steps li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;padding:32px 0;border-top:1px solid var(--hair)}
+.steps li:last-child{border-bottom:1px solid var(--hair)}
+.steps .n{font-size:28px;line-height:1.25;font-weight:600;color:var(--link)}
+.steps .t-card{margin-bottom:6px}
+.steps .lnk{display:inline-block;margin-top:8px;margin-right:20px;font-size:17px}
+@media (max-width:734px){.steps li{grid-template-columns:56px minmax(0,1fr)}.steps .n{font-size:21px}}
+
+/* sticky system */
+.sys{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;align-items:start}
+.sys-l{position:sticky;top:calc(44px + env(safe-area-inset-top,0px) + 28px)}
+.diagram{margin:0;background:#000;border-radius:28px;padding:16px;overflow:hidden}
+.diagram svg{display:block;width:100%;height:auto}
+.diagram svg g.pn{transition:opacity .6s}
+.diagram[data-step="1"] #p2,.diagram[data-step="1"] #p3,.diagram[data-step="2"] #p1,.diagram[data-step="2"] #p3,.diagram[data-step="3"] #p1,.diagram[data-step="3"] #p2{opacity:.16}
+.diagram figcaption{padding:12px 8px 2px}
+.step{min-height:62vh;display:flex;flex-direction:column;justify-content:center;gap:10px;opacity:.35;transition:opacity .5s}
+.step.act{opacity:1}
+.step .tag{color:var(--link)}
+.sysnote{margin-top:16px}
+@media (max-width:860px){.sys{grid-template-columns:minmax(0,1fr);gap:32px}.sys-l{position:static}.diagram[data-step] #p1,.diagram[data-step] #p2,.diagram[data-step] #p3{opacity:1!important}.step{min-height:0;opacity:1;padding-block:12px}}
+
+/* tool */
+.tool{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.screen{background:#000;border:1px solid var(--hair);border-radius:28px;padding:24px;display:flex;flex-direction:column;gap:14px}
+.screen .bar{display:flex;justify-content:space-between;font-size:12px;color:var(--cap)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#30d158;margin-right:6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fb{border-radius:14px;padding:16px;text-align:center;font-weight:600}
+.fb.b{background:rgba(255,69,58,.14);border:1px solid var(--up);color:var(--up)}
+.fb.s{background:rgba(10,132,255,.14);border:1px solid var(--down);color:var(--down)}
+.fb.n{border:1px solid var(--hair);color:var(--gray);font-weight:400}
+.practice{border:1px dashed #8e6be0;border-radius:14px;padding:14px;text-align:center;font-size:14px;color:#bba4f2}
+.feat{display:flex;flex-direction:column;align-items:stretch;gap:28px;width:100%;min-width:0}
+.feat>div{width:100%;text-align:left}
+.screen{width:100%}
+.feat .t-card{margin-bottom:4px}
+@media (max-width:860px){.tool{grid-template-columns:minmax(0,1fr);gap:40px;justify-items:center}.screen,.feat{max-width:560px}}
+
+/* rules */
+.bans{display:grid;gap:16px;max-width:980px;margin:0 auto}
+.ban{display:flex;align-items:center;gap:32px;padding:36px 40px;border-radius:28px;background:#1d1d1f;border:1px solid rgba(255,255,255,.08)}
+.ban:nth-child(1){background:linear-gradient(100deg,#2a1416 0%,#1d1d1f 60%)}
+.ban:nth-child(2){background:linear-gradient(100deg,#0f2036 0%,#1d1d1f 60%)}
+.ban:nth-child(3){background:linear-gradient(100deg,#1b1b2e 0%,#1d1d1f 60%)}
+.bi{flex:none;width:72px;height:72px;border-radius:20px;display:grid;place-items:center;background:rgba(255,255,255,.08);color:var(--link)}
+.ban:nth-child(1) .bi{color:var(--up)}
+.bi svg{width:40px;height:40px}
+.bn{font-size:14px;line-height:1.43;font-weight:600;color:#86868b;letter-spacing:.04em;margin-bottom:6px}
+.bt .t-card{margin-bottom:10px;text-wrap:balance}
+.bt .t-body{color:#d2d2d7;max-width:34em}
+.bt b{color:#f5f5f7;font-weight:700}
+@media (max-width:734px){.ban{flex-direction:column;align-items:flex-start;gap:20px;padding:28px 24px;border-radius:22px}.bi{width:56px;height:56px;border-radius:16px}.bi svg{width:32px;height:32px}}
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.rules .tile{padding:32px}
+.rules .k{color:var(--link);font-size:14px;font-weight:600}
+.rules .k.no{color:var(--up)}
+@media (max-width:1068px){.rules{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:734px){.rules{grid-template-columns:minmax(0,1fr)}}
+
+/* ladder (light) */
+.ladder{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.lad{background:#fff;border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:14px}
+.lad .lh{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.lad .lh .t-card{color:var(--d1)}
+.lad .lh span{font-size:14px;color:#0066cc;font-weight:600;white-space:nowrap}
+.lad ul{display:flex;flex-direction:column;gap:6px;font-size:17px;line-height:1.58824;color:var(--dim)}
+.lad li{padding-left:16px;position:relative}
+.lad li::before{content:"";position:absolute;left:0;top:.72em;width:5px;height:5px;border-radius:50%;background:#0066cc}
+@media (max-width:734px){.ladder{grid-template-columns:minmax(0,1fr)}.lad{padding:24px}}
+
+/* videos */
+.vid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);grid-template-rows:1fr 1fr;gap:20px}
+.vcard{display:flex;align-items:center;gap:20px;background:var(--d1);border-radius:28px;padding:32px;text-decoration:none;transition:transform .4s}
+.vcard:hover{transform:scale(1.015)}
+.vcard.main{grid-row:span 2;flex-direction:column;align-items:flex-start;justify-content:center;gap:32px;min-height:340px;padding:48px}
+.play{width:80px;height:80px;border-radius:50%;background:var(--blue);position:relative;flex:none}
+.play::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-34%,-50%);border-left:22px solid #fff;border-top:14px solid transparent;border-bottom:14px solid transparent}
+.play.sm{width:52px;height:52px}
+.play.sm::after{border-left-width:15px;border-top-width:10px;border-bottom-width:10px}
+.vt{display:flex;flex-direction:column;gap:4px;min-width:0}
+.vt .t-small{color:var(--link)}
+.host{display:grid;grid-template-columns:auto minmax(0,1fr);gap:32px;align-items:center;background:var(--d1);border-radius:28px;padding:48px;margin-top:20px}
+.avatar{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;font-size:40px;font-weight:600;background:#000;border:1px solid var(--hair)}
+@media (max-width:860px){.vid{grid-template-columns:minmax(0,1fr);grid-template-rows:auto}.vcard.main{grid-row:auto;min-height:0;padding:32px}.host{grid-template-columns:minmax(0,1fr);padding:28px}}
+
+/* final check */
+.qa{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-bottom:56px}
+.qa .tile{background:#000}
+.qa .q{color:var(--link);font-size:14px;font-weight:600}
+@media (max-width:860px){.qa{grid-template-columns:minmax(0,1fr)}}
+.checks{display:flex;flex-direction:column;gap:16px;max-width:760px;margin:0 auto 32px}
+.checks label{display:flex;gap:14px;align-items:flex-start;cursor:pointer;color:var(--gray2)}
+.checks input{width:22px;height:22px;margin-top:2px;flex:none;accent-color:var(--blue)}
+.final{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px;text-align:center}
+#go-msg{min-height:1.4em;color:var(--link)}
+
+/* faq (light) */
+.faq{border-top:1px solid rgba(0,0,0,.16);max-width:820px}
+details{border-bottom:1px solid rgba(0,0,0,.16);padding-block:22px}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;font-size:21px;line-height:1.38;font-weight:600;color:var(--d1)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-weight:400;color:#0066cc;font-size:28px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{margin-top:12px;font-size:17px;color:var(--dim)}
+details p b{color:var(--d1);font-weight:600}
+
+footer{background:var(--light);color:rgba(0,0,0,.56);border-top:1px solid rgba(0,0,0,.16);padding-block:32px 56px;font-size:12px;line-height:1.41667}
+footer .in{display:flex;flex-direction:column;gap:10px}
+footer a{color:#0066cc}
+footer strong{color:var(--d1);font-weight:600}
+/* gradient text (애플식 청록→스틸블루) */
+.grad{background:linear-gradient(90deg,#a8dcf0 0%,#74a3cb 55%,#5282ad 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+/* 이미지 배너: 기기 프레임 + 하단 필 버튼 */
+.device{position:relative;max-width:760px;margin:64px auto 0}
+.device .lid{background:#0b0b0d;border:10px solid #1d1d1f;border-bottom-width:12px;border-radius:22px 22px 0 0;aspect-ratio:16/10;overflow:hidden}
+.device .lid svg{display:block;width:100%;height:100%}
+.device .base{height:14px;margin:0 -5%;border-radius:0 0 22px 22px;background:linear-gradient(#9a9aa0,#4a4a4f)}
+.pill{position:absolute;left:50%;bottom:36px;transform:translateX(-50%);display:flex;align-items:center;gap:20px;padding:8px 8px 8px 28px;border-radius:999px;background:rgba(29,29,31,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);text-decoration:none;color:#f5f5f7;font-size:19px;line-height:1.3;font-weight:600;white-space:nowrap}
+.pill i{width:48px;height:48px;border-radius:50%;background:var(--blue);display:grid;place-items:center;font-style:normal;font-size:30px;line-height:1;font-weight:400}
+.capr{max-width:760px;margin:12px auto 0;text-align:right}
+@media (max-width:734px){.device{margin-top:44px}.device .lid{border-width:6px;border-radius:14px 14px 0 0}.pill{bottom:22px;font-size:14px;gap:12px;padding:6px 6px 6px 18px}.pill i{width:34px;height:34px;font-size:22px}}
+/* tabs (light) */
+.tabs{display:flex;gap:36px;border-bottom:1px solid rgba(0,0,0,.16);margin-bottom:32px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:12px 0;font:inherit;font-size:17px;line-height:1.3;color:#86868b;cursor:pointer;white-space:nowrap}
+.tab[aria-selected="true"]{color:#1d1d1f;border-bottom-color:#1d1d1f}
+.tpanel{animation:tf .5s cubic-bezier(.28,.11,.32,1)}
+@keyframes tf{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media (max-width:860px){.nl{display:none}}
+@media (prefers-reduced-motion:reduce){.tpanel{animation:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv{opacity:1;transform:none;transition:none}.w{color:var(--fg)}}
+
+/* 간격 보정: 숫자 줄이 첫 화면에 붙지 않도록 */
+.stats-sec{padding-top:48px!important;padding-bottom:112px!important}
+
+/* ===== LUXURY PURPLE (참고 시안: 블랙 + 보라 글로우 + 격자 + 글래스 카드) — 글자 크기·간격은 애플 값 유지 ===== */
+:root{--pu:#8b5cf6;--pu2:#a78bfa;--pu3:#c4b5fd;--pud:#6d28d9;--ink:#05030a;--ink2:#09061a;--ink3:#0d0924;
+  --link:#b69cff;--blue:#7c3aed;--cap:rgba(221,214,254,.55);--hair:rgba(167,139,250,.2);--gray:#9b96ad;
+  --hg:linear-gradient(180deg,#ffffff 0%,#e4daff 48%,#a98bff 100%);
+  --glass:linear-gradient(160deg,rgba(124,58,237,.16) 0%,rgba(255,255,255,.025) 60%);
+  --edge:rgba(167,139,250,.24)}
+body,.bg-black{background:var(--ink)}
+.bg-d1{background:var(--ink2)}.bg-d2{background:var(--ink3)}
+.bg-light{background:var(--ink2);color:var(--fg)}
+.bg-light .t-copy,.bg-light .t-body{color:var(--gray)}.bg-light .t-copy b,.bg-light .t-body b{color:#fff}
+.bg-light .head .t-eb{color:var(--pu2)}.bg-light .t-cap{color:var(--cap)}.bg-light .lnk{color:var(--link)}
+/* 격자 + 보라 글로우 배경 */
+.sec::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+   radial-gradient(60% 40% at 50% 0%,rgba(124,58,237,.30),transparent 70%),
+   radial-gradient(40% 30% at 100% 100%,rgba(99,102,241,.16),transparent 70%),
+   linear-gradient(rgba(167,139,250,.07) 1px,transparent 1px) 0 0/64px 64px,
+   linear-gradient(90deg,rgba(167,139,250,.07) 1px,transparent 1px) 0 0/64px 64px;
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.55) 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.55) 55%,transparent 100%)}
+.sec+.sec{border-top:1px solid rgba(167,139,250,.1)}
+/* 제목: 화이트→라벤더 그라데이션 */
+.hero h1.t-super,.bg-black h2.t-sec,.bg-d1 h2.t-sec,.bg-d2 h2.t-sec,.bg-light h2.t-sec,h1.t-super{background:var(--hg);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;font-weight:700;letter-spacing:-.015em}
+.hero h1 .grad,.grad{background:linear-gradient(90deg,#d8ccff 0%,#9d7bff 50%,#6366f1 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.hero h1 .grad{background:none;-webkit-text-fill-color:inherit}
+.t-eb{color:var(--pu2)}
+.hero .t-eb,.head .t-eb{display:inline-block;padding:7px 16px;border-radius:999px;border:1px solid var(--edge);background:rgba(124,58,237,.14);color:var(--pu3);font-size:14px;line-height:1.3;font-weight:600;letter-spacing:.01em;margin-bottom:20px}
+.head .t-eb+*{margin-top:0}
+.t-copy b,.t-body b{color:#fff}
+/* 헤더 · 버튼 */
+nav{background:rgba(5,3,10,.72);border-bottom:1px solid rgba(167,139,250,.16)}
+body::before{background:rgba(5,3,10,.72)}
+.btn{background:linear-gradient(180deg,#9b6dff 0%,#6d28d9 100%);border:1px solid rgba(196,181,253,.45);box-shadow:0 10px 36px rgba(124,58,237,.45),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn.sm{box-shadow:0 4px 18px rgba(124,58,237,.4)}
+.lnk{color:var(--link)}
+.brand::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;transform:rotate(45deg);background:linear-gradient(135deg,#c4b5fd,#6d28d9);margin-right:10px;vertical-align:middle;box-shadow:0 0 12px rgba(139,92,246,.8)}
+/* 글래스 카드 */
+.tile,.bg-d1 .tile,.bg-d2 .tile,.bg-light .tile,.qa .tile,.lad,.ban,.vcard,.host,.screen,.diagram{background:var(--glass);border:1px solid var(--edge);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 24px 70px rgba(76,29,149,.20);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.ban:nth-child(n){background:var(--glass)}
+.bi,.ban:nth-child(n) .bi{background:linear-gradient(160deg,rgba(139,92,246,.35),rgba(99,102,241,.12));border:1px solid var(--edge);color:var(--pu3)}
+.ban:nth-child(1) .bi{color:#ff8a94}
+.tile:hover,.lad:hover,.vcard:hover{border-color:rgba(196,181,253,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 24px 80px rgba(124,58,237,.35);transition:border-color .3s,box-shadow .3s}
+.rules .k,.qa .q,.steps .n{color:var(--pu2)}.rules .k.no{color:#ff8a94}
+.row,.stack,.faq,.faq details,.steps li,.tabs{border-color:rgba(167,139,250,.2)}
+.total em,.row.total .r em{color:var(--pu3)}
+.tab[aria-selected="true"]{color:#fff;border-bottom-color:var(--pu2)}
+.faq summary{color:#fff}
+.faq summary::after,.faq summary span{color:var(--pu2)}
+.lad .t-card,.lad li{color:#fff}.lad li{color:#cfc9e4}
+.lh span{color:var(--pu3);border-color:var(--edge)}
+input[type=checkbox]{accent-color:#8b5cf6}
+.play{background:linear-gradient(180deg,#9b6dff,#6d28d9);box-shadow:0 8px 30px rgba(124,58,237,.5)}
+/* 기기 목업 글로우 */
+.device::before{content:"";position:absolute;inset:-12% -8% -4%;z-index:-1;background:radial-gradient(50% 50% at 50% 50%,rgba(124,58,237,.45),transparent 70%);filter:blur(30px)}
+.device .lid{border-color:#1b1233;box-shadow:0 0 0 1px rgba(167,139,250,.35),0 30px 90px rgba(109,40,217,.45)}
+.pill{background:rgba(20,12,45,.7);border:1px solid var(--edge)}.pill i{background:linear-gradient(180deg,#9b6dff,#6d28d9)}
+/* 큰 숫자 */
+.stat .t-super,.big{filter:drop-shadow(0 0 28px rgba(139,92,246,.45))}
+.stat .t-body{color:var(--pu3)}
+.w{color:#4b4466}.w.on{color:#fff}
+.lad .lh .t-card{color:#fff}.lad .lh span{color:var(--pu3)}.lad li::before{background:var(--pu2)}.lad ul{color:#cfc9e4}
+.faq details p,.faq p{color:var(--gray)}.faq summary{color:#fff}
+.bg-light .faq summary::after{color:var(--pu2)}
+
+/* ===== MacBook Air 페이지(apple.com/kr/macbook-air) 측정값: 섹션 160/128/96, 라벨 24/21, 소개문 21/600/32(모바일 19/25), 선언문 32/800/39 ===== */
+.sec{padding-block:160px}
+@media (max-width:1068px){.sec{padding-block:128px}}
+@media (max-width:734px){.sec{padding-block:96px}}
+.head{max-width:912px}
+.head .t-eb{font-size:24px;line-height:1.29;letter-spacing:.009em;font-weight:600;padding:0;border:0;background:none;color:var(--pu2);margin-bottom:12px;display:block}
+.hero .t-eb{display:inline-block;padding:7px 16px;border:1px solid var(--edge);background:rgba(124,58,237,.14);color:var(--pu3);font-size:14px;line-height:1.3;border-radius:999px;margin-bottom:20px}
+.t-copy,.t-intro{font-size:21px;line-height:1.52381;font-weight:600;letter-spacing:.011em}
+.head h2+.t-copy,.head h2+.t-intro{margin-top:28px}
+.t-body{font-weight:600}
+.tile .t-body,.ban .t-body,.lad li,.qa .t-body{font-weight:400}
+@media (max-width:1068px){.t-eb{font-size:21px}}
+@media (max-width:734px){.t-copy,.t-intro{font-size:19px;line-height:1.31579;letter-spacing:.012em}.head .t-eb{font-size:21px}.head h2+.t-copy{margin-top:20px}}
+/* 노트북 + 신호 차트 */
+.device{position:relative;max-width:900px;margin:72px auto 0}
+.device .lid{aspect-ratio:16/10;border:12px solid #0b0b0d;border-bottom-width:14px;border-radius:24px 24px 0 0;background:#000;overflow:hidden;position:relative}
+.device .lid::after{content:"";position:absolute;top:-9px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#1a1a22}
+.device .lid svg{display:block;width:100%;height:100%}
+.device .base{height:14px;margin:0 -6%;border-radius:0 0 18px 18px;background:linear-gradient(#b4b4ba 0%,#6a6a72 60%,#3a3a42 100%);position:relative}
+.device .base::after{content:"";position:absolute;left:50%;top:0;width:18%;height:6px;margin-left:-9%;border-radius:0 0 8px 8px;background:#26262c}
+.pill{display:none}
+@media (max-width:734px){.device{margin-top:48px}.device .lid{border-width:6px;border-bottom-width:8px;border-radius:12px 12px 0 0}}
+/* Air 스타일 수치 행: [칩] | 라벨 · 큰 숫자 · 설명 */
+.stats-sec .in{max-width:calc(1000px + 2*var(--gx))}
+.stats{display:grid;grid-template-columns:auto 1px repeat(3,minmax(0,1fr));gap:0 40px;align-items:center;text-align:left}
+.stats .chip{width:96px;height:96px;border-radius:24px;border:3px solid #fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:21px;font-weight:700;line-height:1.2;text-align:center;box-shadow:0 0 40px rgba(139,92,246,.45)}
+.stats .vr{width:1px;align-self:stretch;background:rgba(167,139,250,.35)}
+.stat .lbl{font-size:21px;line-height:1.29;font-weight:600;color:var(--gray)}
+.stat .t-super{font-size:80px;line-height:1.1;margin:6px 0 12px}
+.stat .t-body{font-size:19px;line-height:1.42;font-weight:600;word-break:keep-all}
+@media (max-width:1068px){.stat .t-super{font-size:56px}.stat .t-body,.stat .lbl{font-size:19px}.stats{gap:0 24px}.stats .chip{width:72px;height:72px;border-radius:18px;font-size:17px}}
+@media (max-width:734px){.stats{grid-template-columns:minmax(0,1fr);gap:28px}.stats .vr,.stats .chip{display:none}.stat .t-super{font-size:48px}.stat{padding-bottom:24px;border-bottom:1px solid rgba(167,139,250,.18)}}
+.stats{justify-items:stretch}.stat{width:100%;min-width:0}
+@media (min-width:735px){.stat .t-body{white-space:nowrap}}
+@media (max-width:1068px){.stat .t-body{font-size:17px}}
+.stat .lbl{white-space:nowrap}
+@media (max-width:1068px){.stats .chip,.stats .vr{display:none}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stat .lbl{font-size:17px}}
+@media (max-width:734px){.stats{grid-template-columns:minmax(0,1fr)}.stat .lbl{font-size:19px}}
+/* 선언문 (manifesto 32/800/39 → 24/800/35 → 28/800/35) */
+.statement .in{max-width:calc(1000px + 2*var(--gx))}
+.statement .t-elev{text-align:left;max-width:none;margin:0;font-size:32px;line-height:1.21875;font-weight:800;letter-spacing:.004em}
+@media (max-width:1068px){.statement .t-elev{font-size:24px;line-height:1.4583}}
+@media (max-width:734px){.statement .t-elev{font-size:28px;line-height:1.25}}
+.w.on{color:#fff}
+
+/* ===== Air 헤드카피: 굵은 볼드 + 가로 그라데이션 + 좌측 정렬 컬럼 + 스크롤 모션 ===== */
+:root{--hg2:linear-gradient(100deg,#ffffff 0%,#e2d8ff 34%,#a98bff 68%,#7a6cf5 100%)}
+.hero h1.t-super,h1.t-super,.bg-black h2.t-sec,.bg-d1 h2.t-sec,.bg-d2 h2.t-sec,.bg-light h2.t-sec,.head h2.t-sec{background:var(--hg2);background-size:170% 100%;background-position:calc(var(--p,0)*100%) 0;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;font-weight:800;letter-spacing:-.015em}
+.head h2.t-sec,.head h2.t-sec .grad{width:fit-content;max-width:100%}
+.hero h1.t-super{font-weight:800}
+.hero h1 .grad{font-weight:800;background:linear-gradient(100deg,#e2d8ff 0%,#a98bff 55%,#7a6cf5 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.head{align-items:flex-start;text-align:left;max-width:980px;margin-left:auto;margin-right:auto}
+.head .t-sec,.head .t-copy,.head .t-intro{margin-left:0;margin-right:0;text-align:left}
+.head .t-copy,.head .t-intro{max-width:760px}
+.hero .head,.hero .hero-in{align-items:center;text-align:center}
+.t-eb{font-weight:700}
+.head .t-eb{text-align:left;align-self:flex-start;margin-left:0;margin-right:0}
+.hero .t-eb{align-self:center}
+/* 스크롤 등장 모션 */
+.rv{opacity:0;transform:translateY(44px);filter:blur(6px);transition:opacity 1s cubic-bezier(.28,.11,.32,1) var(--d,0s),transform 1s cubic-bezier(.28,.11,.32,1) var(--d,0s),filter 1s cubic-bezier(.28,.11,.32,1) var(--d,0s)}
+.rv.vis{opacity:1;transform:none;filter:none}
+.head .t-eb.rv{--d:0s}.head h2.rv{--d:.08s}.head .t-copy.rv,.head .t-intro.rv{--d:.18s}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none;transition:none}}
+</style>
+<noscript><style>.rv{opacity:1;transform:none}.w{color:#f5f5f7}</style></noscript>
+
+<nav>
+  <div class="in">
+    <div class="brand">ARMY TRADING</div>
+    <div class="nl"><a href="#steps">참여 7단계</a><a href="#system">차트 읽기</a><a href="#course">교육 과정</a><a href="#videos">영상</a><a href="#faq">질문</a></div>
+    <a class="btn sm" href="#check">무료 신청</a>
+  </div>
+</nav>
+
+<main>
+  <section class="sec bg-black hero center" data-bg="aurora">
+    <div class="in">
+      <p class="t-eb rv">ARMY TRADING · 제임스 제자과정</p>
+      <h1 class="t-super rv" style="--d:.08s">무료로 배우는<br><span class="grad">트레이딩.</span></h1>
+      <p class="t-copy rv" style="--d:.16s">5,000만 원 상당의 교육과 매수·매도 신호 도구를 <b>수강료도 구독료도 없이</b>. 제임스 대표가 <b>10억 원</b>을 들여 준비했습니다.</p>
+      <div class="cta rv" style="--d:.24s"><a class="btn" href="#check">무료 신청하기</a><a class="lnk" href="#videos">소개 영상 보기 ›</a></div>
+      <div class="device rv" style="--d:.32s"><div class="lid"><svg viewBox="0 0 800 500" role="img" aria-label="매수·매도 신호가 표시된 차트 화면을 설명하기 위한 도식" preserveAspectRatio="xMidYMid slice"><rect width="800" height="500" fill="#c4c4c8"/><rect width="610" height="500" fill="#cdcdd1"/><line x1="0" y1="60" x2="610" y2="60" stroke="#b9b9be" stroke-width="1"/><line x1="0" y1="160" x2="610" y2="160" stroke="#b9b9be" stroke-width="1"/><line x1="0" y1="260" x2="610" y2="260" stroke="#b9b9be" stroke-width="1"/><line x1="0" y1="360" x2="610" y2="360" stroke="#b9b9be" stroke-width="1"/><line x1="0" y1="460" x2="610" y2="460" stroke="#b9b9be" stroke-width="1"/><polygon points="26.0,187.5 39.6,187.5 53.2,187.5 66.8,187.5 80.4,187.5 94.0,187.5 107.6,187.5 121.2,182.8 134.8,179.9 148.4,164.8 162.0,162.2 175.6,162.2 189.2,146.0 202.8,146.0 216.4,161.4 230.0,209.8 243.6,209.8 257.2,210.9 270.8,249.7 284.4,249.7 298.0,249.7 311.6,249.7 325.2,249.7 338.8,249.7 352.4,249.7 366.0,255.5 379.6,265.4 393.2,265.4 406.8,289.5 420.4,293.6 434.0,306.9 447.6,331.1 461.2,349.9 474.8,351.0 488.4,367.1 502.0,379.9 515.6,379.9 529.2,393.5 542.8,393.5 556.4,404.2 570.0,412.8 583.6,428.6 583.6,444.6 570.0,428.8 556.4,420.2 542.8,409.5 529.2,409.5 515.6,395.9 502.0,395.9 488.4,383.1 474.8,367.0 461.2,365.9 447.6,347.1 434.0,322.9 420.4,309.6 406.8,305.5 393.2,281.4 379.6,281.4 366.0,271.5 352.4,265.7 338.8,265.7 325.2,265.7 311.6,265.7 298.0,265.7 284.4,265.7 270.8,265.7 257.2,226.9 243.6,225.8 230.0,225.8 216.4,177.4 202.8,162.0 189.2,162.0 175.6,178.2 162.0,178.2 148.4,180.8 134.8,195.9 121.2,198.8 107.6,203.5 94.0,203.5 80.4,203.5 66.8,203.5 53.2,203.5 39.6,203.5 26.0,203.5" fill="#f1d6d8" opacity=".75"/><path d="M26.0 187.5 L39.6 187.5 L39.6 187.5 L53.2 187.5 L53.2 187.5 L66.8 187.5 L66.8 187.5 L80.4 187.5 L80.4 187.5 L94.0 187.5 L94.0 187.5 L107.6 187.5 L107.6 187.5 L121.2 187.5 L121.2 182.8 L134.8 182.8 L134.8 179.9 L148.4 179.9 L148.4 164.8 L162.0 164.8 L162.0 162.2 L175.6 162.2 L175.6 162.2 L189.2 162.2 L189.2 146.0 L202.8 146.0 L202.8 146.0 L216.4 146.0 L216.4 161.4 L230.0 161.4 L230.0 209.8 L243.6 209.8 L243.6 209.8 L257.2 209.8 L257.2 210.9 L270.8 210.9 L270.8 249.7 L284.4 249.7 L284.4 249.7 L298.0 249.7 L298.0 249.7 L311.6 249.7 L311.6 249.7 L325.2 249.7 L325.2 249.7 L338.8 249.7 L338.8 249.7 L352.4 249.7 L352.4 249.7 L366.0 249.7 L366.0 255.5 L379.6 255.5 L379.6 265.4 L393.2 265.4 L393.2 265.4 L406.8 265.4 L406.8 289.5 L420.4 289.5 L420.4 293.6 L434.0 293.6 L434.0 306.9 L447.6 306.9 L447.6 331.1 L461.2 331.1 L461.2 349.9 L474.8 349.9 L474.8 351.0 L488.4 351.0 L488.4 367.1 L502.0 367.1 L502.0 379.9 L515.6 379.9 L515.6 379.9 L529.2 379.9 L529.2 393.5 L542.8 393.5 L542.8 393.5 L556.4 393.5 L556.4 404.2 L570.0 404.2 L570.0 412.8 L583.6 412.8 L583.6 428.6 " fill="none" stroke="#e23d4a" stroke-width="1.8"/><polygon points="26.0,102.5 39.6,95.3 53.2,62.3 66.8,62.3 80.4,61.1 94.0,59.2 107.6,48.9 121.2,42.3 134.8,42.3 148.4,35.7 162.0,23.1 175.6,23.1 189.2,23.1 202.8,3.7 216.4,3.7 230.0,3.7 243.6,3.7 257.2,3.7 270.8,3.7 284.4,3.7 298.0,9.5 311.6,77.7 325.2,101.6 338.8,110.8 352.4,120.5 366.0,120.5 379.6,120.5 393.2,120.5 406.8,120.5 420.4,120.5 434.0,152.5 447.6,158.4 461.2,158.4 474.8,182.2 488.4,182.2 502.0,200.1 515.6,205.2 529.2,222.1 542.8,243.6 556.4,254.4 570.0,270.1 583.6,284.0 583.6,268.0 570.0,254.1 556.4,238.4 542.8,227.6 529.2,206.1 515.6,189.2 502.0,184.1 488.4,166.2 474.8,166.2 461.2,142.4 447.6,142.4 434.0,136.5 420.4,104.5 406.8,104.5 393.2,104.5 379.6,104.5 366.0,104.5 352.4,104.5 338.8,94.8 325.2,85.6 311.6,61.7 298.0,-6.5 284.4,-12.3 270.8,-12.3 257.2,-12.3 243.6,-12.3 230.0,-12.3 216.4,-12.3 202.8,-12.3 189.2,7.1 175.6,7.1 162.0,7.1 148.4,19.7 134.8,26.3 121.2,26.3 107.6,32.9 94.0,43.2 80.4,45.1 66.8,46.3 53.2,46.3 39.6,79.3 26.0,86.5" fill="#dcecff" opacity=".9"/><path d="M26.0 102.5 L39.6 102.5 L39.6 95.3 L53.2 95.3 L53.2 62.3 L66.8 62.3 L66.8 62.3 L80.4 62.3 L80.4 61.1 L94.0 61.1 L94.0 59.2 L107.6 59.2 L107.6 48.9 L121.2 48.9 L121.2 42.3 L134.8 42.3 L134.8 42.3 L148.4 42.3 L148.4 35.7 L162.0 35.7 L162.0 23.1 L175.6 23.1 L175.6 23.1 L189.2 23.1 L189.2 23.1 L202.8 23.1 L202.8 3.7 L216.4 3.7 L216.4 3.7 L230.0 3.7 L230.0 3.7 L243.6 3.7 L243.6 3.7 L257.2 3.7 L257.2 3.7 L270.8 3.7 L270.8 3.7 L284.4 3.7 L284.4 3.7 L298.0 3.7 L298.0 9.5 L311.6 9.5 L311.6 77.7 L325.2 77.7 L325.2 101.6 L338.8 101.6 L338.8 110.8 L352.4 110.8 L352.4 120.5 L366.0 120.5 L366.0 120.5 L379.6 120.5 L379.6 120.5 L393.2 120.5 L393.2 120.5 L406.8 120.5 L406.8 120.5 L420.4 120.5 L420.4 120.5 L434.0 120.5 L434.0 152.5 L447.6 152.5 L447.6 158.4 L461.2 158.4 L461.2 158.4 L474.8 158.4 L474.8 182.2 L488.4 182.2 L488.4 182.2 L502.0 182.2 L502.0 200.1 L515.6 200.1 L515.6 205.2 L529.2 205.2 L529.2 222.1 L542.8 222.1 L542.8 243.6 L556.4 243.6 L556.4 254.4 L570.0 254.4 L570.0 270.1 L583.6 270.1 L583.6 284.0 " fill="none" stroke="#1f46d9" stroke-width="1.8"/><line x1="26.0" y1="130.5" x2="26.0" y2="159.5" stroke="#e02b2b" stroke-width="1.3"/><rect x="22.5" y="141.7" width="7" height="8.0" fill="#e02b2b"/><line x1="39.6" y1="123.3" x2="39.6" y2="154.8" stroke="#e02b2b" stroke-width="1.3"/><rect x="36.1" y="130.5" width="7" height="11.2" fill="#e02b2b"/><line x1="53.2" y1="90.3" x2="53.2" y2="151.9" stroke="#e02b2b" stroke-width="1.3"/><rect x="49.7" y="110.1" width="7" height="20.5" fill="#e02b2b"/><line x1="66.8" y1="96.9" x2="66.8" y2="136.8" stroke="#1636c9" stroke-width="1.3"/><rect x="63.3" y="110.1" width="7" height="9.2" fill="#1636c9"/><line x1="80.4" y1="89.1" x2="80.4" y2="127.0" stroke="#e02b2b" stroke-width="1.3"/><rect x="76.9" y="110.4" width="7" height="8.9" fill="#e02b2b"/><line x1="94.0" y1="87.2" x2="94.0" y2="134.2" stroke="#e02b2b" stroke-width="1.3"/><rect x="90.5" y="100.2" width="7" height="10.2" fill="#e02b2b"/><line x1="107.6" y1="76.9" x2="107.6" y2="117.2" stroke="#1636c9" stroke-width="1.3"/><rect x="104.1" y="100.2" width="7" height="7.2" fill="#1636c9"/><line x1="121.2" y1="70.3" x2="121.2" y2="118.0" stroke="#e02b2b" stroke-width="1.3"/><rect x="117.7" y="91.6" width="7" height="15.8" fill="#e02b2b"/><line x1="134.8" y1="77.3" x2="134.8" y2="111.5" stroke="#e02b2b" stroke-width="1.3"/><rect x="131.3" y="83.3" width="7" height="8.2" fill="#e02b2b"/><line x1="148.4" y1="63.7" x2="148.4" y2="95.2" stroke="#e02b2b" stroke-width="1.3"/><rect x="144.9" y="73.5" width="7" height="9.9" fill="#e02b2b"/><line x1="162.0" y1="51.1" x2="162.0" y2="105.9" stroke="#1636c9" stroke-width="1.3"/><rect x="158.5" y="73.5" width="7" height="21.2" fill="#1636c9"/><line x1="175.6" y1="64.6" x2="175.6" y2="101.9" stroke="#e02b2b" stroke-width="1.3"/><rect x="172.1" y="79.1" width="7" height="15.5" fill="#e02b2b"/><line x1="189.2" y1="55.1" x2="189.2" y2="86.7" stroke="#e02b2b" stroke-width="1.3"/><rect x="185.7" y="78.7" width="7" height="2.5" fill="#e02b2b"/><line x1="202.8" y1="31.7" x2="202.8" y2="95.2" stroke="#e02b2b" stroke-width="1.3"/><rect x="199.3" y="44.9" width="7" height="33.9" fill="#e02b2b"/><line x1="216.4" y1="37.5" x2="216.4" y2="133.4" stroke="#1636c9" stroke-width="1.3"/><rect x="212.9" y="44.9" width="7" height="78.2" fill="#1636c9"/><line x1="230.0" y1="105.7" x2="230.0" y2="181.8" stroke="#1636c9" stroke-width="1.3"/><rect x="226.5" y="123.0" width="7" height="42.0" fill="#1636c9"/><line x1="243.6" y1="129.6" x2="243.6" y2="177.7" stroke="#e02b2b" stroke-width="1.3"/><rect x="240.1" y="149.6" width="7" height="15.4" fill="#e02b2b"/><line x1="257.2" y1="138.8" x2="257.2" y2="182.9" stroke="#1636c9" stroke-width="1.3"/><rect x="253.7" y="149.6" width="7" height="19.1" fill="#1636c9"/><line x1="270.8" y1="161.2" x2="270.8" y2="221.7" stroke="#1636c9" stroke-width="1.3"/><rect x="267.3" y="168.8" width="7" height="29.7" fill="#1636c9"/><line x1="284.4" y1="176.9" x2="284.4" y2="213.2" stroke="#e02b2b" stroke-width="1.3"/><rect x="280.9" y="188.8" width="7" height="9.6" fill="#e02b2b"/><line x1="298.0" y1="165.5" x2="298.0" y2="210.7" stroke="#1636c9" stroke-width="1.3"/><rect x="294.5" y="188.8" width="7" height="5.5" fill="#1636c9"/><line x1="311.6" y1="168.8" x2="311.6" y2="215.9" stroke="#e02b2b" stroke-width="1.3"/><rect x="308.1" y="188.5" width="7" height="5.9" fill="#e02b2b"/><line x1="325.2" y1="150.9" x2="325.2" y2="197.8" stroke="#e02b2b" stroke-width="1.3"/><rect x="321.7" y="159.0" width="7" height="29.5" fill="#e02b2b"/><line x1="338.8" y1="148.5" x2="338.8" y2="197.1" stroke="#1636c9" stroke-width="1.3"/><rect x="335.3" y="159.0" width="7" height="29.4" fill="#1636c9"/><line x1="352.4" y1="180.5" x2="352.4" y2="218.5" stroke="#1636c9" stroke-width="1.3"/><rect x="348.9" y="188.4" width="7" height="7.8" fill="#1636c9"/><line x1="366.0" y1="189.1" x2="366.0" y2="227.5" stroke="#1636c9" stroke-width="1.3"/><rect x="362.5" y="196.2" width="7" height="10.6" fill="#1636c9"/><line x1="379.6" y1="186.4" x2="379.6" y2="237.4" stroke="#1636c9" stroke-width="1.3"/><rect x="376.1" y="206.8" width="7" height="20.1" fill="#1636c9"/><line x1="393.2" y1="217.1" x2="393.2" y2="236.3" stroke="#e02b2b" stroke-width="1.3"/><rect x="389.7" y="226.3" width="7" height="2.5" fill="#e02b2b"/><line x1="406.8" y1="210.2" x2="406.8" y2="261.5" stroke="#1636c9" stroke-width="1.3"/><rect x="403.3" y="226.3" width="7" height="15.8" fill="#1636c9"/><line x1="420.4" y1="228.1" x2="420.4" y2="265.6" stroke="#1636c9" stroke-width="1.3"/><rect x="416.9" y="242.1" width="7" height="2.5" fill="#1636c9"/><line x1="434.0" y1="233.2" x2="434.0" y2="278.9" stroke="#1636c9" stroke-width="1.3"/><rect x="430.5" y="242.7" width="7" height="26.6" fill="#1636c9"/><line x1="447.6" y1="250.1" x2="447.6" y2="303.1" stroke="#1636c9" stroke-width="1.3"/><rect x="444.1" y="269.3" width="7" height="10.6" fill="#1636c9"/><line x1="461.2" y1="271.6" x2="461.2" y2="321.9" stroke="#1636c9" stroke-width="1.3"/><rect x="457.7" y="279.9" width="7" height="20.1" fill="#1636c9"/><line x1="474.8" y1="282.4" x2="474.8" y2="323.0" stroke="#1636c9" stroke-width="1.3"/><rect x="471.3" y="300.0" width="7" height="6.1" fill="#1636c9"/><line x1="488.4" y1="298.1" x2="488.4" y2="339.1" stroke="#1636c9" stroke-width="1.3"/><rect x="484.9" y="306.2" width="7" height="19.4" fill="#1636c9"/><line x1="502.0" y1="312.0" x2="502.0" y2="351.9" stroke="#1636c9" stroke-width="1.3"/><rect x="498.5" y="325.5" width="7" height="18.5" fill="#1636c9"/><line x1="515.6" y1="320.3" x2="515.6" y2="350.7" stroke="#e02b2b" stroke-width="1.3"/><rect x="512.1" y="330.1" width="7" height="13.9" fill="#e02b2b"/><line x1="529.2" y1="319.2" x2="529.2" y2="365.5" stroke="#1636c9" stroke-width="1.3"/><rect x="525.7" y="330.1" width="7" height="12.1" fill="#1636c9"/><line x1="542.8" y1="318.7" x2="542.8" y2="360.5" stroke="#1636c9" stroke-width="1.3"/><rect x="539.3" y="342.2" width="7" height="8.1" fill="#1636c9"/><line x1="556.4" y1="329.8" x2="556.4" y2="376.2" stroke="#1636c9" stroke-width="1.3"/><rect x="552.9" y="350.3" width="7" height="7.3" fill="#1636c9"/><line x1="570.0" y1="346.0" x2="570.0" y2="384.8" stroke="#1636c9" stroke-width="1.3"/><rect x="566.5" y="357.5" width="7" height="16.6" fill="#1636c9"/><line x1="583.6" y1="352.2" x2="583.6" y2="400.6" stroke="#1636c9" stroke-width="1.3"/><rect x="580.1" y="374.2" width="7" height="5.6" fill="#1636c9"/><polyline points="26.0,141.7 39.6,136.1 53.2,127.4 66.8,119.9 80.4,113.2 94.0,109.9 107.6,106.0 121.2,99.7 134.8,94.1 148.4,82.8 162.0,83.8 175.6,82.4 189.2,84.1 202.8,67.6 216.4,82.2 230.0,111.0 243.6,145.9 257.2,161.1 270.8,172.3 284.4,185.4 298.0,193.9 311.6,190.5 325.2,180.6 338.8,178.6 352.4,181.2 366.0,197.1 379.6,210.0 393.2,220.0 406.8,231.8 420.4,237.0 434.0,251.4 447.6,264.0 461.2,283.1 474.8,295.4 488.4,310.6 502.0,325.2 515.6,333.2 529.2,338.7 542.8,340.8 556.4,350.0 570.0,360.6 583.6,370.5" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"/><polyline points="26.0,141.7 39.6,136.1 53.2,127.4 66.8,125.4 80.4,122.4 94.0,118.7 107.6,117.1 121.2,113.9 134.8,110.5 148.4,106.8 162.0,102.1 175.6,96.9 189.2,93.8 202.8,86.4 216.4,87.6 230.0,94.1 243.6,98.3 257.2,106.0 270.8,117.6 284.4,129.1 298.0,139.1 311.6,150.0 325.2,158.0 338.8,172.4 352.4,179.7 366.0,183.9 379.6,191.6 393.2,197.4 406.8,201.7 420.4,207.1 434.0,214.6 447.6,223.8 461.2,237.9 474.8,249.6 488.4,262.6 502.0,276.3 515.6,286.6 529.2,298.2 542.8,309.0 556.4,320.5 570.0,331.0 583.6,341.0" fill="none" stroke="#1636c9" stroke-width="2"/><polyline points="26.0,141.7 39.6,136.1 53.2,127.4 66.8,125.4 80.4,122.4 94.0,118.7 107.6,117.1 121.2,113.9 134.8,110.5 148.4,106.8 162.0,105.7 175.6,103.5 189.2,101.6 202.8,97.5 216.4,99.2 230.0,103.3 243.6,106.0 257.2,107.6 270.8,111.6 284.4,116.3 298.0,120.7 311.6,125.3 325.2,128.7 338.8,133.5 352.4,139.7 366.0,146.9 379.6,155.9 393.2,163.7 406.8,173.3 420.4,182.9 434.0,196.1 447.6,205.4 461.2,213.3 474.8,222.5 488.4,231.7 502.0,240.3 515.6,248.6 529.2,257.3 542.8,266.8 556.4,278.5 570.0,289.4 583.6,300.2" fill="none" stroke="#d8222c" stroke-width="2" opacity=".85"/><line x1="0" y1="136" x2="610" y2="136" stroke="#1f46d9" stroke-width="1.2" stroke-dasharray="3 3"/><line x1="0" y1="330" x2="610" y2="330" stroke="#1f46d9" stroke-width="1.2" stroke-dasharray="3 3"/><line x1="0" y1="384" x2="610" y2="384" stroke="#d8222c" stroke-width="1.2" stroke-dasharray="3 3"/><line x1="246" y1="0" x2="246" y2="500" stroke="#444" stroke-width="1"/><path d="M66.8 70.9 h-5 v-9 h10 v9 h-5 l0 0 z M66.8 78.9 l-8 -2 h16 z" fill="#1636c9" transform="translate(0,0)"/><path d="M189.2 29.1 h-5 v-9 h10 v9 h-5 l0 0 z M189.2 37.1 l-8 -2 h16 z" fill="#1636c9" transform="translate(0,0)"/><path d="M434.0 207.2 h-5 v-9 h10 v9 h-5 l0 0 z M434.0 215.2 l-8 -2 h16 z" fill="#1636c9" transform="translate(0,0)"/><path d="M270.8 231.7 l-7 10 h4.5 v8 h5 v-8 h4.5 z" fill="#e02b2b"/><path d="M352.4 228.5 l-7 10 h4.5 v8 h5 v-8 h4.5 z" fill="#e02b2b"/><path d="M570.0 394.8 l-7 10 h4.5 v8 h5 v-8 h4.5 z" fill="#e02b2b"/><rect x="526" y="308" width="62" height="16" rx="2" fill="#fff3b0" stroke="#555"/><text x="530" y="320" font-size="11" font-weight="700" fill="#111">28922.00</text><rect x="610" width="80" height="500" fill="#e6e6ea"/><text x="618" y="64" font-size="13" fill="#222" font-weight="500">29050.00</text><text x="618" y="164" font-size="13" fill="#222" font-weight="500">29000.00</text><text x="618" y="264" font-size="13" fill="#222" font-weight="500">28950.00</text><text x="618" y="364" font-size="13" fill="#222" font-weight="500">28900.00</text><text x="618" y="464" font-size="13" fill="#222" font-weight="500">28850.00</text><rect x="613" y="370" width="72" height="17" fill="#111"/><text x="616" y="382" font-size="12.5" font-weight="700" fill="#fff">28891.00</text><rect x="690" width="110" height="500" fill="#d3d3d8"/><rect x="702" y="70" width="46" height="72" rx="4" fill="#e63b46"/><text x="726" y="106" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" writing-mode="tb" style="writing-mode:vertical-rl">시장매수</text><rect x="702" y="154" width="46" height="72" rx="4" fill="#2b57e6"/><text x="726" y="190" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" writing-mode="tb" style="writing-mode:vertical-rl">시장매도</text><rect x="702" y="238" width="46" height="72" rx="4" fill="#f0a020"/><text x="726" y="274" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" writing-mode="tb" style="writing-mode:vertical-rl">$수익</text><rect x="702" y="322" width="46" height="72" rx="4" fill="#8a5cf0"/><text x="726" y="358" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" writing-mode="tb" style="writing-mode:vertical-rl">올청산</text></svg></div><div class="base"></div></div>
+      <p class="t-small capr rv">구성을 설명하기 위한 도식입니다. 실제 차트와 가격이 아니며, 수익을 보장하지 않습니다.</p>
+    </div>
+  </section>
+
+  <section class="sec bg-black stats-sec">
+    <div class="in">
+      <div class="stats">
+        <div class="chip rv">0원<br>교육</div><div class="vr"></div>
+        <div class="stat rv"><p class="lbl">교육 과정</p><p class="t-super grad">0원</p><p class="t-body">수강료 없음<br>정규~챌린저 과정</p></div>
+        <div class="stat rv" style="--d:.08s"><p class="lbl">신호 도구</p><p class="t-super grad">0원</p><p class="t-body">구독료 없음<br>V9 · SB 신호 도구</p></div>
+        <div class="stat rv" style="--d:.16s"><p class="lbl">시작 비용</p><p class="t-super grad">0원</p><p class="t-body">투자금 없음<br>가상 연습부터 시작</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bg-black statement">
+    <div class="in"><p class="t-elev" id="stmt" data-text="5,000만 원 상당의 교육. 구독료 300만 원 도구. 전부 0원입니다."></p></div>
+  </section>
+
+  <section class="sec bg-d1" id="free">
+    <div class="in">
+      <div class="head">
+        <p class="t-eb rv">무료로 제공하는 것</p>
+        <h2 class="t-sec rv">내는 돈은 0원.<br>미션은 댓글과 게시글 정도.</h2>
+        <p class="t-copy rv"><b>교육비와 신호 도구 사용료는 받지 않습니다.</b> 신호 도구를 쓰시는 분은 네이버카페에 <b>댓글이나 게시글</b>을 남기는 미션만 진행합니다.</p>
+      </div>
+      <div class="stack sc">
+        <div class="row"><div class="l"><p class="t-card">트레이딩 교육</p><p class="t-body">정규과정부터 챌린저 과정까지 · 제임스 대표 진행</p></div><div class="r"><s>5,000만 원 상당</s><em>0원</em></div></div>
+        <div class="row"><div class="l"><p class="t-card">매수·매도 신호를 읽는 도구</p><p class="t-body">아미트레이더 V9 · 시간봉·알파·델타 차트와 SB 빠른졸업창 · 미션: 네이버카페 댓글·게시글 작성</p></div><div class="r"><s>구독료</s><em>0원</em></div></div>
+        <div class="row"><div class="l"><p class="t-card">가상 연습 주문창</p><p class="t-body">카피 체험 · 실제 자금 없이 먼저 연습</p></div><div class="r"><s>투자금</s><em>0원</em></div></div>
+        <div class="row total"><div class="l"><p class="t-card">신청하시는 분이 내야 하는 돈</p></div><div class="r"><em>0원</em></div></div>
+      </div>
+      <div class="why rv">
+        <div class="big grad"><span class="count" data-count="10">10</span><small>억 원</small></div>
+        <div>
+          <h3 class="t-red">10억 원을 들여,<br>무료 봉사로 진행합니다.</h3>
+          <p class="t-body">제임스 대표가 준비한 교육과 도구입니다. <b>수강료도, 구독료도 받지 않습니다.</b> 필요한 것은 <b>신청 한 번</b>과, 직접 연습해 보려는 마음입니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bg-black" id="pain">
+    <div class="in">
+      <div class="head">
+        <p class="t-eb rv">한국 개인투자자가 겪는 문제</p>
+        <h2 class="t-sec rv">알고 있습니다.<br>혼자 겪기에는 무겁다는 것을.</h2>
+      </div>
+      <div class="grid2">
+        <div class="tile rv"><h3 class="t-card">지수가 올라도<br>개인은 잃습니다.</h3><p class="t-body">금융감독원 분석에 따르면 해외 파생상품 시장에서 개인투자자의 연평균 손실액은 <b>약 4,490억 원</b>입니다. 나스닥이 크게 오른 해에도 <b>개인투자자는 큰 손실</b>을 기록했습니다.</p></div>
+        <div class="tile rv" style="--d:.06s"><h3 class="t-card">믿고 따를 곳을<br>고르기 어렵습니다.</h3><p class="t-body">금융감독원이 유사투자자문업자의 리딩방 불법행위를 <b>암행점검하고 단속</b>할 정도로, 검증되지 않은 곳이 많습니다.</p></div>
+        <div class="tile rv"><h3 class="t-card">진입 이유가<br>매번 다릅니다.</h3><p class="t-body">눈에 띄는 움직임을 따라가다 보니 <b>기준이 없고</b>, 정해 둔 <b>손절</b>도 미루게 됩니다.</p></div>
+        <div class="tile rv" style="--d:.06s"><h3 class="t-card">안전하게 연습할<br>곳이 없습니다.</h3><p class="t-body">금융당국은 해외 선물·옵션을 처음 거래하는 개인에게 <b>사전교육과 모의거래</b>를 요구합니다(2025년 12월 시행). 그만큼 <b>실전 전에 연습</b>이 중요합니다.</p></div>
+      </div>
+      <p class="t-red pclose rv">그래서 이 교육은 <span class="grad">원칙과 연습</span>부터 시작합니다.</p>
+      <p class="t-cap srcs rv">출처: <a href="https://biz.newdaily.co.kr/site/data/html/2025/12/12/2025121200326.amp.html" target="_blank" rel="noopener">금융감독원 해외 고위험 금융투자상품 유의사항 (2025.12, 뉴데일리 보도)</a> · <a href="https://www.etoday.co.kr/news/view/2287519" target="_blank" rel="noopener">금감원 리딩방 점검·단속 계획 (2023.9, 이투데이 보도)</a></p>
+    </div>
+  </section>
+
+  <section class="sec bg-d2" id="steps">
+    <div class="in">
+      <div class="head">
+        <p class="t-eb rv">교육 참여 7단계</p>
+        <h2 class="t-sec rv">처음이어도,<br>차례대로.</h2>
+        <p class="t-copy rv">신청부터 첫 연습, 카페 미션까지 <b>일곱 단계</b>입니다. <b>경험이 없어도</b> 시작할 수 있습니다.</p>
+      </div>
+      <ol class="steps">
+        <li class="rv"><span class="n">01</span><div><h3 class="t-card">과정 소개 영상 보기</h3><p class="t-body">제임스 제자과정이 무엇인지 <b>먼저 확인</b>하세요.</p><a class="lnk" href="https://youtu.be/5iDYWpiZ4Nk" target="_blank" rel="noopener">영상 보기 ›</a></div></li>
+        <li class="rv"><span class="n">02</span><div><h3 class="t-card">제자 사례 영상 보기</h3><p class="t-body">사례 영상은 개인의 경험이며 <b>결과를 약속하지 않습니다.</b></p><a class="lnk" href="https://youtu.be/sqzFCxQpF3c" target="_blank" rel="noopener">사례 ① ›</a><a class="lnk" href="https://youtu.be/GDFlW3DZRNo" target="_blank" rel="noopener">사례 ② ›</a></div></li>
+        <li class="rv"><span class="n">03</span><div><h3 class="t-card">제자 신청서 작성</h3><p class="t-body"><b>약 10분</b> 걸립니다. 아래 최종 점검을 마치면 신청서로 이동할 수 있습니다.</p><a class="lnk" href="#check">최종 점검으로 이동 ›</a></div></li>
+        <li class="rv"><span class="n">04</span><div><h3 class="t-card">「제자신청완료」 보내기</h3><p class="t-body">작성을 마치면 <b>카카오톡이나 문자</b>로 「제자신청완료」를 보내 주세요.</p></div></li>
+        <li class="rv"><span class="n">05</span><div><h3 class="t-card">가상 연습 주문창으로 시작</h3><p class="t-body">카피 체험 창에서 <b>실제 자금 없이</b> 먼저 연습합니다.</p></div></li>
+        <li class="rv"><span class="n">06</span><div><h3 class="t-card">시간봉, 알파, 델타 순서로 읽기</h3><p class="t-body">큰 방향에서 작은 자리로, <b>정해진 순서</b>대로 차트를 읽는 법을 배웁니다.</p></div></li>
+        <li class="rv"><span class="n">07</span><div><h3 class="t-card">카페 미션 진행</h3><p class="t-body">신호 도구를 쓰는 분은 네이버카페 아미트레이더에 <b>댓글이나 게시글</b>을 남깁니다.</p><a class="lnk" href="https://m.cafe.naver.com/sv800" target="_blank" rel="noopener">카페 바로가기 ›</a></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec bg-black" id="safety">
+    <div class="in">
+      <div class="head">
+        <p class="t-eb rv">안전 수칙</p>
+        <h2 class="t-sec rv">먼저,<br>세 가지만 기억하세요.</h2>
+      </div>
+      <div class="bans">
+        <div class="ban rv"><span class="bi"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="17"/><path d="M24 14v12M24 32v.5"/></svg></span><div class="bt"><p class="bn">01</p><h3 class="t-card">선입금 요구는 의심하세요.</h3><p class="t-body">이 교육은 <b>수강료도 구독료도 없습니다.</b> 교육비나 도구 사용료를 내라는 연락은 아미트레이딩이 보낸 것이 아닙니다.</p></div></div>
+        <div class="ban rv" style="--d:.06s"><span class="bi"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6l15 6v11c0 9-6 16-15 19C15 39 9 32 9 23V12z"/><path d="M17 24l5 5 9-10"/></svg></span><div class="bt"><p class="bn">02</p><h3 class="t-card">공식 채널만 이용하세요.</h3><p class="t-body">신청서와 <b>네이버카페 아미트레이더</b> 링크는 이 페이지에서 안내합니다. 다른 경로로 받은 링크는 확인 후 이용하세요.</p></div></div>
+        <div class="ban rv" style="--d:.12s"><span class="bi"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="21" width="28" height="19" rx="4"/><path d="M16 21v-5a8 8 0 0116 0v5M24 29v4"/></svg></span><div class="bt"><p class="bn">03</p><h3 class="t-card">인증 정보는 알려주지 마세요.</h3><p class="t-body">계좌 비밀번호, OTP, 인증서 같은 정보는 <b>누구에게도 알려주지 않는 것</b>이 원칙입니다.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bg-d1" id="system">
+    <div class="in wide">
+      <div class="head">
+        <p class="t-eb rv">차트 읽는 순서</p>
+        <h2 class="t-sec rv">큰 흐름에서<br>작은 자리로.</h2>
+        <p class="t-copy rv"><b>시간봉</b>으로 오늘의 방향을 정하고, <b>알파</b>에서 같은 방향의 흐름을 기다리고, <b>델타</b>에서 하루의 전환점을 확인합니다. 순서가 정해져 있어 <b>판단이 단순</b>해집니다.</p>
+      </div>
+      <div class="sys">
+        <div class="sys-l">
+          <figure class="diagram" id="diagram">
+            <svg viewBox="0 0 640 400" role="img" aria-label="시간봉, 알파, 델타 세 차트를 위에서 아래로 보는 순서를 나타낸 구성 도식">
+              <rect width="640" height="400" fill="#000"/>
+              <g class="pn" id="p1">
+                <text x="16" y="26" fill="#86868b" font-size="13">① 시간봉 60분 · 큰 방향</text>
+                <line x1="16" y1="120" x2="624" y2="120" stroke="#333336"/>
+                <polyline points="20,108 90,96 150,100 220,78 280,84 350,56 420,64 500,40 590,30" fill="none" stroke="#f5f5f7" stroke-width="2.5"/>
+                <circle cx="220" cy="78" r="6" fill="#000" stroke="#2997ff" stroke-width="2"/><text x="228" y="100" fill="#2997ff" font-size="12">P1</text>
+                <circle cx="500" cy="40" r="6" fill="#000" stroke="#2997ff" stroke-width="2"/><text x="508" y="62" fill="#2997ff" font-size="12">P3</text>
+              </g>
+              <g class="pn" id="p2" transform="translate(0,130)">
+                <text x="16" y="26" fill="#86868b" font-size="13">② 알파 3분 · 같은 방향 원웨이</text>
+                <line x1="16" y1="120" x2="624" y2="120" stroke="#333336"/>
+                <polyline points="20,104 80,98 130,102 190,84 250,88 310,66 370,70 440,50 520,54 590,36" fill="none" stroke="#f5f5f7" stroke-width="2.5"/>
+                <path d="M310 90 l-7 12 h14 z" fill="#ff453a"/><path d="M440 74 l-7 12 h14 z" fill="#ff453a"/>
+                <text x="318" y="108" fill="#ff453a" font-size="12">매수 준비→완성</text>
+              </g>
+              <g class="pn" id="p3" transform="translate(0,260)">
+                <text x="16" y="26" fill="#86868b" font-size="13">③ 델타 3분 · 당일 변곡점</text>
+                <line x1="16" y1="120" x2="624" y2="120" stroke="#333336"/>
+                <polyline points="20,70 70,50 120,76 170,40 230,84 290,56 350,100 410,66 470,92 540,50 600,62" fill="none" stroke="#f5f5f7" stroke-width="2.5"/>
+                <path d="M350 112 l-7 -12 h14 z" fill="#ff453a"/><path d="M170 28 l-7 12 h14 z" fill="#0a84ff"/><path d="M540 38 l-7 12 h14 z" fill="#0a84ff"/>
+              </g>
+            </svg>
+            <figcaption class="t-cap">구성을 설명하기 위한 도식입니다. 실제 차트와 가격이 아니며, 수익을 보장하지 않습니다. 빨강 화살표는 매수 방향, 파랑 화살표는 매도 방향 표시입니다.</figcaption>
+          </figure>
+        </div>
+        <div>
+          <div class="step" data-step="1"><span class="t-eb tag">STEP 1</span><h3 class="t-red">시간봉,<br>오늘의 큰 방향.</h3><p class="t-body">60분봉에서 <b>P1·P3 변곡점</b>을 확인해 <b>하루의 방향</b>을 정합니다.</p></div>
+          <div class="step" data-step="2"><span class="t-eb tag">STEP 2</span><h3 class="t-red">알파,<br>같은 방향의 흐름.</h3><p class="t-body">3분봉에서 시간봉과 <b>같은 쪽 신호만</b> 고릅니다. <b>「매수 준비」에서 「매수 완성」</b>으로 이어지는 흐름을 읽습니다.</p></div>
+          <div class="step" data-step="3"><span class="t-eb tag">STEP 3</span><h3 class="t-red">델타,<br>하루의 전환점.</h3><p class="t-body">고점과 저점에서 <b>방향이 바뀌는 자리</b>를 확인합니다. 알파와 <b>같은 방향</b>이면 더 좋은 자리로 봅니다.</p><p class="t-small sysnote">변동성 표시가 「약」일 때는 쉬고, 「강」일 때 집중하는 것도 함께 배웁니다. 화면 설명은 대표 PC의 실제 화면을 기준으로 진행합니다.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bg-black" id="rules" data-bg="candles">
+    <div class="in">
+      <div class="head">
+        <p class="t-eb rv">교육의 중심은 원칙</p>
+        <h2 class="t-sec rv">먼저,<br>지키는 법을 배웁니다.</h2>
+        <p class="t-copy rv">신호를 읽는 것만큼 중요한 것이 <b>멈추는 기준</b>입니다. 아래 원칙을 처음부터 <b>습관</b>으로 만듭니다.</p>
+      </div>
+      <div class="rules">
+        <div class="tile rv"><span class="k no">금지</span><h3 class="t-card">손절 자리만 골라서 매매하지 않기</h3><p class="t-body">유리한 장면만 고르는 습관을 만들지 않습니다.</p></div>
+        <div class="tile rv" style="--d:.06s"><span class="k">원칙</span><h3 class="t-card">정석 신호대로만 움직이기</h3><p class="t-body">알파·델타 신호를 기준으로 하고, 임의로 끼어들지 않습니다.</p></div>
+        <div class="tile rv" style="--d:.12s"><span class="k">휴식</span><h3 class="t-card">연속 2번 어긋나면 30분 쉬기</h3><p class="t-body">감정이 앞서는 구간을 기준으로 끊어 줍니다.</p></div>
+        <div class="tile rv"><span class="k">확인</span><h3 class="t-card">하루 손실 한도 칸 항상 보기</h3><p class="t-body">남은 한도를 수시로 확인하는 습관을 들입니다.</p></div>
+        <div class="tile rv" style="--d:.06s"><span class="k">잠금</span><h3 class="t-card">거래 시간을 정하고 잠그기</h3><p class="t-body">정한 시간 밖에서는 화면이 주문을 막도록 설정합니다.</p></div>
+        <div class="tile rv" style="--d:.12s"><span class="k">기록</span><h3 class="t-card">거래 내역으로 스스로 점검하기</h3><p class="t-body">오늘·어제·이번 주 기록을 열어 내 매매를 되돌아봅니다.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bg-d2" id="tool">
+    <div class="in wide">
+      <div class="head">
+        <p class="t-eb rv">교육에서 쓰는 화면</p>
+        <h2 class="t-sec rv">버튼 한 번.<br>그리고 실제 자금 없는 연습.</h2>
+        <p class="t-copy rv">SB 빠른졸업창은 <b>한 화면</b>에서 진행됩니다. 처음에는 <b>가상 연습 창</b>으로 충분히 익힌 뒤에 다음 단계를 생각합니다.</p>
+      </div>
+      <div class="tool">
+        <div class="screen sc" aria-label="화면 구성을 설명하기 위한 모형">
+          <div class="bar"><span><i class="dot"></i>연결됨</span><span>왕초보모드</span></div>
+          <div class="two"><div class="fb s">매도 시장가</div><div class="fb b">매수 시장가</div></div>
+          <div class="two"><div class="fb n">단타 청산</div><div class="fb n">추세 청산</div></div>
+          <div class="practice">카피 체험 · 가상 주문창 (실제 돈 나가지 않음)</div>
+          <div class="bar"><span>하루 한도 남음 확인 칸</span><span>거래 내역</span></div>
+          <p class="t-cap">화면 구성을 설명하기 위한 모형입니다.</p>
+        </div>
+        <div class="feat">
+          <div class="rv"><h3 class="t-card">왕초보모드</h3><p class="t-body">시계 옆 <b>버튼 한 번</b>으로 기본 세팅이 맞춰집니다. 익숙해지면 고수 세팅으로 넘어갑니다.</p></div>
+          <div class="rv"><h3 class="t-card">카피 체험 주문창</h3><p class="t-body">가상 창에서 <b>실제 자금 없이</b> 연습합니다. 교육의 첫 단계가 여기서 시작됩니다.</p></div>
+          <div class="rv"><h3 class="t-card">손절 자동 설정</h3><p class="t-body">진입과 함께 정해 둔 <b>손절</b>이 걸리도록 설정하는 방법을 배웁니다.</p></div>
+          <div class="rv"><h3 class="t-card">거래 내역과 시간 잠금</h3><p class="t-body"><b>기록을 저장</b>해 점검하고, 거래 가능한 <b>시간을 스스로</b> 정해 둡니다.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bg-light" id="course">
+    <div class="in wide">
+      <div class="head">
+        <p class="t-eb rv">교육 과정</p>
+        <h2 class="t-sec rv">정규과정에서 시작해,<br>단계를 올라갑니다.</h2>
+        <p class="t-copy rv"><b>매매기법</b>을 전수받고, <b>통계</b>로 검증하고, <b>실전매매와 피드백</b>으로 마무리합니다. 모든 과정의 <b>교육비는 무료</b>입니다.</p>
+      </div>
+      <div class="tabs rv" role="tablist" aria-label="교육 과정 구분"><button class="tab" role="tab" type="button" aria-selected="true">2주 과정</button><button class="tab" role="tab" type="button" aria-selected="false">터틀프로</button><button class="tab" role="tab" type="button" aria-selected="false">챌린저</button></div>
+      <div class="tpanel" role="tabpanel"><div class="ladder">
+          <div class="lad"><div class="lh"><h3 class="t-card">정규과정</h3><span>2주</span></div><ul><li>1주 · TFCP 매매기법 기법전수, 과학적 통계검증</li><li>2주 · HFCP 매매기법 기법전수, 과학적 통계검증</li><li>실전매매 · 실전피드백</li></ul></div>
+          <div class="lad"><div class="lh"><h3 class="t-card">VIP 스파르타과정</h3><span>2주</span></div><ul><li>1주 · TW 파동 변곡점 매매기법 기법전수, 통계검증</li><li>2주 · STEP UP 매매기법 기법전수, 통계검증</li><li>실전매매 · 실전피드백</li></ul></div>
+          <div class="lad"><div class="lh"><h3 class="t-card">VVIP 프로과정</h3><span>2주</span></div><ul><li>1주 · 제임스 대표 필살기 STSU 매매기법 기법전수, 통계검증</li><li>2주 · TV 변곡점 STSU LEVEL2 매매기법 기법전수, 통계검증</li><li>실전매매 · 실전피드백</li></ul></div>
+      </div></div>
+      <div class="tpanel" role="tabpanel"><div class="ladder">
+          <div class="lad"><div class="lh"><h3 class="t-card">터틀프로 플래티넘</h3><span>3개월</span></div><ul><li>담당 선생님 1대1 개인레슨</li><li>통계검증 · 국내선물 시스템 설치</li><li>실전매매 · 실전피드백</li></ul></div>
+          <div class="lad"><div class="lh"><h3 class="t-card">터틀프로 다이아</h3><span>6개월</span></div><ul><li>담당 선생님 1대1 개인레슨</li><li>통계검증 · 손절회피 필터링기법 전수 · 국내선물 시스템 설치</li><li>실전매매 · 실전피드백</li></ul></div>
+          <div class="lad"><div class="lh"><h3 class="t-card">터틀프로 마스터</h3><span>1년</span></div><ul><li>제임스 대표 1:1 개인레슨</li><li>프로트레이더 자금관리 · 레버리지 관리 · 국내선물 시스템 설치</li><li>실전매매 · 실전피드백</li></ul></div>
+      </div></div>
+      <div class="tpanel" role="tabpanel"><div class="ladder">
+          <div class="lad"><div class="lh"><h3 class="t-card">챌린저 1 · 재야고수 트레이더</h3><span>1년</span></div><ul><li>투자회사 · 법인 · 대표이사 · 고액자산가 · 전문직 · 자영업 사업가</li><li>제임스 대표 1:1 개인레슨 · 증권사 실전투자대회 기법교육</li><li>제임스 실전투자대회 · 실전매매 · 실전피드백</li></ul></div>
+          <div class="lad"><div class="lh"><h3 class="t-card">챌린저 2 · 톱클래스 트레이더</h3><span>1년 6개월</span></div><ul><li>투자회사 · 법인 · 대표이사 · 고액자산가 · 전문직 · 자영업 사업가</li><li>제임스 대표 1:1 개인레슨 · 증권사 실전투자대회 기법교육</li></ul></div>
+      </div></div>
+      <p class="t-cap rv" style="margin-top:24px">과정 구성은 제임스 대표의 커리큘럼표 기준입니다. 어떤 결과도 약속하지 않습니다.</p>
+    </div>
+  </section>
+
+  <section class="sec bg-black" id="videos">
+    <div class="in wide">
+      <div class="head">
+        <p class="t-eb rv">영상으로 먼저 만나 보세요</p>
+        <h2 class="t-sec rv">보고 나서,<br>신청하셔도 됩니다.</h2>
+        <p class="t-copy rv"><b>과정 소개 영상</b>과 <b>제자 사례 영상</b>을 먼저 확인하세요.</p>
+      </div>
+      <div class="vid">
+        <a class="vcard main rv" href="https://youtu.be/5iDYWpiZ4Nk" target="_blank" rel="noopener"><span class="play" aria-hidden="true"></span><span class="vt"><span class="t-small">과정 소개 영상</span><span class="t-red">제임스 제자과정을 소개합니다.</span><span class="t-body">유튜브에서 보기 ›</span></span></a>
+        <a class="vcard rv" style="--d:.06s" href="https://youtu.be/sqzFCxQpF3c" target="_blank" rel="noopener"><span class="play sm" aria-hidden="true"></span><span class="vt"><span class="t-small">제자 사례 영상</span><span class="t-card">제자 사례 ①</span></span></a>
+        <a class="vcard rv" style="--d:.12s" href="https://youtu.be/GDFlW3DZRNo" target="_blank" rel="noopener"><span class="play sm" aria-hidden="true"></span><span class="vt"><span class="t-small">제자 사례 영상</span><span class="t-card">제자 사례 ②</span></span></a>
+      </div>
+      <p class="t-cap rv" style="margin-top:16px">사례 영상은 개인의 경험이며, 어떤 결과도 약속하지 않습니다.</p>
+      <div class="host sc">
+        <div class="avatar" aria-hidden="true">J</div>
+        <div><p class="t-eb" style="color:var(--link)">진행</p><h3 class="t-red" style="margin:6px 0 10px">제임스 대표</h3><p class="t-body">아미트레이더 화면을 직접 사용하며 교육을 진행합니다. 설명에 쓰이는 차트와 화면은 <b>대표 PC의 실제 화면</b>을 기준으로 합니다.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bg-d1" id="check" data-bg="aurora">
+    <div class="in">
+      <div class="head center" style="margin-inline:auto;align-items:center">
+        <p class="t-eb rv">신청 전 최종 점검</p>
+        <h2 class="t-sec rv">내야 할 돈은 0원.<br>필요한 것은 신청 한 번.</h2>
+        <p class="t-copy rv">신청서 작성은 <b>약 10분</b> 걸립니다. 아래 세 가지를 확인하고 시작하세요.</p>
+      </div>
+      <div class="qa">
+        <div class="tile rv"><span class="q">질문 1</span><h3 class="t-card">이 교육은 무엇인가요?</h3><p class="t-body">차트를 읽는 방법과 원칙을 배우는 <b>학습 과정</b>입니다. 어떤 결과도 약속하지 않습니다.</p></div>
+        <div class="tile rv" style="--d:.06s"><span class="q">질문 2</span><h3 class="t-card">비용과 위험은요?</h3><p class="t-body"><b>수강료·구독료·투자금은 없습니다.</b> 다만 금융 거래에는 원금 손실 위험이 있고, 판단과 책임은 본인에게 있습니다.</p></div>
+        <div class="tile rv" style="--d:.12s"><span class="q">질문 3</span><h3 class="t-card">조건이 있나요?</h3><p class="t-body">신호 도구를 쓰는 분은 네이버카페에 <b>댓글이나 게시글</b>을 남기는 미션이 있습니다.</p></div>
+      </div>
+      <div class="checks rv">
+        <label for="c1"><input type="checkbox" id="c1" class="chk"><span>이 교육은 차트를 읽는 방법과 원칙을 배우는 학습 과정이며, 어떤 결과도 약속하지 않는다는 것을 이해했습니다.</span></label>
+        <label for="c2"><input type="checkbox" id="c2" class="chk"><span>금융 거래에는 원금 손실 위험이 있고, 투자 판단과 책임은 본인에게 있다는 것을 이해했습니다.</span></label>
+        <label for="c3"><input type="checkbox" id="c3" class="chk"><span>수강료와 구독료는 없고, 신호 도구 사용 시 카페 댓글·게시글 미션이 있다는 것을 확인했습니다.</span></label>
+      </div>
+      <div class="final rv">
+        <a class="btn wide" id="go" aria-disabled="true" href="https://james-cloud-crm.james-cloud-crm.workers.dev/j" target="_blank" rel="noopener">제자 신청서 작성하기</a>
+        <p class="t-small" id="go-msg" role="status" aria-live="polite">세 가지를 모두 확인하면 신청서로 이동할 수 있습니다.</p>
+        <p class="t-body">작성을 마치면 <b>카카오톡이나 문자</b>로 <b>「제자신청완료」</b>를 보내 주세요. 궁금한 점은 언제든 메시지 주세요.</p>
+        <a class="lnk" href="https://m.cafe.naver.com/sv800" target="_blank" rel="noopener">네이버카페 아미트레이더 바로가기 ›</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bg-light" id="faq">
+    <div class="in">
+      <div class="head"><p class="t-eb rv">자주 묻는 질문</p><h2 class="t-sec rv">신청 전에<br>확인하세요.</h2></div>
+      <div class="faq rv">
+        <details><summary>정말 무료인가요?</summary><p><b>네.</b> 수강료와 투자금 모두 없는 <b>무료 교육</b>입니다.</p></details>
+        <details><summary>왜 무료로 하시나요?</summary><p>제임스 대표가 10억 원을 들여 준비한 교육과 도구를 무료 봉사로 진행하기 때문입니다. 수강료도 구독료도 받지 않습니다.</p></details>
+        <details><summary>도구 구독료가 따로 있나요?</summary><p><b>구독료는 없습니다.</b> 교육에서 사용하는 매수·매도 신호 도구(아미트레이더)를 무료로 제공하며, 사용하시는 분께는 네이버카페에 <b>댓글이나 게시글</b>을 남기는 <b>미션</b>이 있습니다.</p></details>
+        <details><summary>신청은 어떻게 하나요?</summary><p>과정 소개 영상과 사례 영상을 보신 뒤 제자 신청서를 작성합니다(약 10분). 작성을 마치면 카카오톡이나 문자로 「제자신청완료」를 보내 주세요.</p></details>
+        <details><summary>차트를 처음 보는데 따라갈 수 있나요?</summary><p>화면에 왕초보모드가 있어 버튼 한 번으로 기본 세팅을 맞출 수 있습니다. 교육은 정규과정에서 시작해 방향 확인과 신호 읽기부터 차례로 익힙니다.</p></details>
+        <details><summary>어떤 내용을 배우나요?</summary><p>시간봉·알파·델타 세 차트를 읽는 순서, 손절과 휴식 같은 원칙, 화면 사용법, 거래 기록으로 스스로 점검하는 방법을 다룹니다.</p></details>
+        <details><summary>특정 결과를 약속하나요?</summary><p>아니요. 이 교육은 차트를 읽는 방법과 원칙을 지키는 습관을 배우는 학습 과정이며, 어떤 결과도 약속하지 않습니다. 화면의 예시는 설명을 위한 것입니다.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="in">
+    <p><strong>ARMY TRADING</strong> · 진행 제임스 대표 · <a href="https://m.cafe.naver.com/sv800" target="_blank" rel="noopener">네이버카페 아미트레이더</a></p>
+    <p>본 교육은 차트 읽는 법과 매매 원칙을 설명하는 학습 콘텐츠입니다. 특정 상품의 매수·매도를 권유하거나 투자 자문을 제공하지 않으며, 어떠한 결과도 약속하지 않습니다. 금융 거래에는 원금 손실의 위험이 있고, 모든 투자 판단과 책임은 본인에게 있습니다. 화면과 도식은 설명을 위한 예시입니다.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var vh=function(){return window.innerHeight||800};
+  var clamp=function(v,a,b){return Math.max(a,Math.min(b,v))};
+
+  /* reveal */
+  var rvs=[].slice.call(document.querySelectorAll('.rv'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+    rvs.forEach(function(el){io.observe(el)});
+  }else rvs.forEach(function(el){el.classList.add('vis')});
+
+  /* statement: 스크롤에 따라 단어가 밝아짐 */
+  var stmt=document.getElementById('stmt'),words=[];
+  if(stmt){
+    stmt.setAttribute('aria-label',stmt.dataset.text);
+    var toks=stmt.dataset.text.split(' ');
+    toks.forEach(function(t,i){
+      var s=document.createElement('span');s.className='w';s.setAttribute('aria-hidden','true');s.textContent=t;
+      stmt.appendChild(s);if(i<toks.length-1)stmt.appendChild(document.createTextNode(' '));words.push(s);
+    });
+  }
+
+  /* sticky steps */
+  var steps=[].slice.call(document.querySelectorAll('.step')),diagram=document.getElementById('diagram');
+  if('IntersectionObserver' in window&&steps.length){
+    var so=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){steps.forEach(function(s){s.classList.toggle('act',s===e.target)});diagram.setAttribute('data-step',e.target.dataset.step)}
+    })},{rootMargin:'-42% 0px -42% 0px'});
+    steps.forEach(function(s){so.observe(s)});
+  }
+
+  /* scroll-linked */
+  var ticking=false;
+  function onScroll(){
+    var v=vh();
+    if(!reduce){
+      if(words.length){
+        var r=stmt.getBoundingClientRect(),p=clamp((v*.85-r.top)/(v*.5+r.height),0,1);
+        words.forEach(function(w,i){w.classList.toggle('on',p>=(i/words.length)*.85+.02)});
+      }
+      [].forEach.call(document.querySelectorAll('.sc'),function(el){
+        var rr=el.getBoundingClientRect(),q=clamp((v*.95-rr.top)/(v*.55),0,1),ez=1-Math.pow(1-q,3);
+        el.style.transform='translateY('+((1-ez)*40)+'px) scale('+(.92+.08*ez)+')';
+        el.style.opacity=String(.35+.65*ez);
+      });
+      var big=document.querySelector('.why .big');
+      if(big){var rb=big.getBoundingClientRect();big.style.transform='translateY('+clamp((rb.top-v/2)*-.08,-50,50)+'px)'}
+    }
+    ticking=false;
+  }
+  addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
+  addEventListener('resize',onScroll);onScroll();
+  if(reduce)words.forEach(function(w){w.classList.add('on')});
+
+  /* count-up */
+  var cnt=document.querySelector('.count');
+  if(cnt&&!reduce&&'IntersectionObserver' in window){
+    var target=+cnt.dataset.count;
+    var co=new IntersectionObserver(function(es){
+      if(es[0].isIntersecting){co.disconnect();var s0=performance.now();
+        (function f(n){var p=clamp((n-s0)/1400,0,1);cnt.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(s0);}
+    },{threshold:.6});
+    co.observe(cnt);
+  }
+
+  /* 최종 점검 체크 → 신청서 이동 */
+  var chks=[].slice.call(document.querySelectorAll('.chk')),go=document.getElementById('go'),gm=document.getElementById('go-msg');
+  function sync(){
+    var ok=chks.every(function(c){return c.checked});
+    go.setAttribute('aria-disabled',ok?'false':'true');
+    gm.textContent=ok?'확인하셨습니다. 신청서로 이동할 수 있습니다.':'세 가지를 모두 확인하면 신청서로 이동할 수 있습니다.';
+  }
+  chks.forEach(function(c){c.addEventListener('change',sync)});
+  go.addEventListener('click',function(e){if(go.getAttribute('aria-disabled')==='true'){e.preventDefault();gm.textContent='위 세 가지를 모두 확인해 주세요.'}});
+
+  /* 교육 과정 탭 */
+  (function(){
+    var tabs=[].slice.call(document.querySelectorAll('.tab')),panels=[].slice.call(document.querySelectorAll('.tpanel'));
+    function sel(i){tabs.forEach(function(t,j){t.setAttribute('aria-selected',j===i?'true':'false')});panels.forEach(function(p,j){p.hidden=j!==i})}
+    tabs.forEach(function(t,i){t.addEventListener('click',function(){sel(i)})});
+    if(tabs.length)sel(0);
+  })();
+
+  /* 배경: 코드로 그린 루프 (aurora / candles) */
+  function makeBg(section){
+    var mode=section.getAttribute('data-bg'),cv=document.createElement('canvas');
+    cv.className='bg';cv.setAttribute('aria-hidden','true');section.insertBefore(cv,section.firstChild);
+    var ctx=cv.getContext('2d'),W=0,H=0,vis=false,raf=0,t0=performance.now(),candles=[],price=0,CW=26,off=0,shifted=0;
+    function nextC(){var o=price,c=clamp(o+(Math.random()-.47)*H*.07,H*.2,H*.85),hi=Math.min(o,c)-Math.random()*H*.04,lo=Math.max(o,c)+Math.random()*H*.04;price=c;return{o:o,c:c,h:hi,l:lo}}
+    function resize(){
+      var dpr=Math.min(window.devicePixelRatio||1,2);W=section.clientWidth;H=section.clientHeight;
+      cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+      if(mode==='candles'){candles=[];price=H*.55;for(var i=0;i<Math.ceil(W/CW)+3;i++)candles.push(nextC())}
+      draw(0);
+    }
+    function draw(t){
+      ctx.clearRect(0,0,W,H);
+      if(mode==='candles'){
+        for(var i=0;i<candles.length;i++){
+          var k=candles[i],x=i*CW-off+CW/2,hl=(i%7===0),col=k.c<k.o?'255,69,58':'10,132,255';
+          ctx.strokeStyle='rgba(255,255,255,.14)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,k.h);ctx.lineTo(x,k.l);ctx.stroke();
+          ctx.fillStyle='rgba('+(hl?col:'255,255,255')+','+(hl?.30:.08)+')';
+          ctx.fillRect(x-7,Math.min(k.o,k.c),14,Math.max(2,Math.abs(k.c-k.o)));
+        }
+      }else{
+        [[.2,.3,.45,'0,113,227',.28],[.8,.2,.4,'41,151,255',.16],[.55,.9,.5,'0,113,227',.14]].forEach(function(b,i){
+          var x=(b[0]+Math.sin(t*.12+i*2)*.12)*W,y=(b[1]+Math.cos(t*.1+i)*.12)*H,r=b[2]*Math.max(W,H)*.7,g=ctx.createRadialGradient(x,y,0,x,y,r);
+          g.addColorStop(0,'rgba('+b[3]+','+b[4]+')');g.addColorStop(1,'rgba('+b[3]+',0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+        });
+      }
+    }
+    function loop(now){
+      if(!vis){raf=0;return}
+      var t=(now-t0)/1000;
+      if(mode==='candles'){var s=Math.floor(t*14/CW);while(shifted<s){candles.shift();candles.push(nextC());shifted++}off=(t*14)%CW}
+      draw(t);raf=requestAnimationFrame(loop);
+    }
+    if('ResizeObserver' in window)new ResizeObserver(resize).observe(section);else addEventListener('resize',resize);
+    resize();
+    if(!reduce&&'IntersectionObserver' in window)new IntersectionObserver(function(es){vis=es[0].isIntersecting;if(vis&&!raf)raf=requestAnimationFrame(loop)},{rootMargin:'120px'}).observe(section);
+  }
+  [].slice.call(document.querySelectorAll('[data-bg]')).forEach(makeBg);
+})();
+
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var hs=[].slice.call(document.querySelectorAll('h1.t-super,h2.t-sec')),t=0;
+  function upd(){t=0;var vh=innerHeight;hs.forEach(function(e){var r=e.getBoundingClientRect();if(r.bottom<-50||r.top>vh+50)return;var p=(vh-r.top)/(vh+r.height);e.style.setProperty('--p',Math.max(0,Math.min(1,p)).toFixed(3))})}
+  addEventListener('scroll',function(){if(!t)t=requestAnimationFrame(upd)},{passive:true});addEventListener('resize',upd);upd();
+})();
+</script>
+
+</html>
