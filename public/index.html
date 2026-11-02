@@ -419,6 +419,22 @@ input[type=checkbox]{accent-color:#8b5cf6}
 .rv.vis{opacity:1;transform:none;filter:none}
 .head .t-eb.rv{--d:0s}.head h2.rv{--d:.08s}.head .t-copy.rv,.head .t-intro.rv{--d:.18s}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none;transition:none}}
+
+/* ===== 정렬 통일(가운데 기준) + 폭 통일 + 섹션별 모션 ===== */
+.head{align-items:center;text-align:center;max-width:980px}
+.head .t-sec,.head .t-copy,.head .t-intro,.head .t-eb{text-align:center;margin-left:auto;margin-right:auto;align-self:center}
+.head .t-sec,.head .t-sec .grad{width:auto}
+.head .t-copy,.head .t-intro{max-width:760px}
+.stats-sec .in,.statement .in{max-width:calc(980px + 2*var(--gx))}
+.faq{max-width:none;width:100%}
+.statement .t-elev{text-align:center;margin-left:auto;margin-right:auto}
+@media (max-width:734px){.head .t-copy,.head .t-intro{max-width:none}}
+.rv.st{transition-delay:var(--d,0s)}
+.rv.from-l{transform:translateX(-48px) translateY(0)}
+.rv.from-r{transform:translateX(48px) translateY(0)}
+.rv.zoom{transform:scale(.94) translateY(24px)}
+.rv.vis{transform:none}
+@media (max-width:734px){.rv.from-l,.rv.from-r{transform:translateY(32px)}}
 </style>
 <noscript><style>.rv{opacity:1;transform:none}.w{color:#f5f5f7}</style></noscript>
 
@@ -720,6 +736,15 @@ input[type=checkbox]{accent-color:#8b5cf6}
   var vh=function(){return window.innerHeight||800};
   var clamp=function(v,a,b){return Math.max(a,Math.min(b,v))};
 
+  /* 섹션별 순차 등장 */
+  (function(){
+    var map=[['#free .row','',0.07],['#pain .tile','',0.08],['#steps li','',0.06],['#safety .ban','zoom',0.1],['#system .step,#system .sys','zoom',0.08],['#rules .tile','',0.07],['#tool .tile,#tool .screen','zoom',0.08],['#course .lad','',0.08],['#videos .vid > *,#videos .tile','',0.08],['#check .qa > *','',0.08],['#faq details','',0.05],['.stats .stat','',0.1]];
+    map.forEach(function(m){[].slice.call(document.querySelectorAll(m[0])).forEach(function(el,i){
+      if(!el.classList.contains('rv'))el.classList.add('rv');
+      if(m[1])el.classList.add(m[1]);
+      el.style.setProperty('--d',(Math.min(i,5)*m[2]).toFixed(2)+'s');
+    })});
+  })();
   /* reveal */
   var rvs=[].slice.call(document.querySelectorAll('.rv'));
   if('IntersectionObserver' in window){
