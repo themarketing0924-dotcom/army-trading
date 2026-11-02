@@ -435,6 +435,8 @@ input[type=checkbox]{accent-color:#8b5cf6}
 .rv.zoom{transform:scale(.94) translateY(24px)}
 .rv.vis{transform:none}
 @media (max-width:734px){.rv.from-l,.rv.from-r{transform:translateY(32px)}}
+.statement{min-height:420px;display:flex;align-items:center}.statement .in{width:100%}
+@media (max-width:734px){.statement{min-height:340px}}
 </style>
 <noscript><style>.rv{opacity:1;transform:none}.w{color:#f5f5f7}</style></noscript>
 
@@ -447,7 +449,7 @@ input[type=checkbox]{accent-color:#8b5cf6}
 </nav>
 
 <main>
-  <section class="sec bg-black hero center" data-bg="aurora">
+  <section class="sec bg-black hero center" data-bg="chart">
     <div class="in">
       <p class="t-eb rv">ARMY TRADING · 제임스 제자과정</p>
       <h1 class="t-super rv" style="--d:.08s">무료로 배우는<br><span class="grad">트레이딩.</span></h1>
@@ -469,7 +471,7 @@ input[type=checkbox]{accent-color:#8b5cf6}
     </div>
   </section>
 
-  <section class="sec bg-black statement">
+  <section class="sec bg-black statement" data-bg="chart">
     <div class="in"><p class="t-elev" id="stmt" data-text="5,000만 원 상당의 교육. 구독료 300만 원 도구. 전부 0원입니다."></p></div>
   </section>
 
@@ -829,16 +831,68 @@ input[type=checkbox]{accent-color:#8b5cf6}
     var mode=section.getAttribute('data-bg'),cv=document.createElement('canvas');
     cv.className='bg';cv.setAttribute('aria-hidden','true');section.insertBefore(cv,section.firstChild);
     var ctx=cv.getContext('2d'),W=0,H=0,vis=false,raf=0,t0=performance.now(),candles=[],price=0,CW=26,off=0,shifted=0;
-    function nextC(){var o=price,c=clamp(o+(Math.random()-.47)*H*.07,H*.2,H*.85),hi=Math.min(o,c)-Math.random()*H*.04,lo=Math.max(o,c)+Math.random()*H*.04;price=c;return{o:o,c:c,h:hi,l:lo}}
+    function nextC(){var o=price,c=clamp(o+(Math.random()-.47)*Math.min(H,700)*.07,H*.22,H*.82),hi=Math.min(o,c)-Math.random()*H*.04,lo=Math.max(o,c)+Math.random()*H*.04;price=c;return{o:o,c:c,h:hi,l:lo}}
     function resize(){
       var dpr=Math.min(window.devicePixelRatio||1,2);W=section.clientWidth;H=section.clientHeight;
       cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-      if(mode==='candles'){candles=[];price=H*.55;for(var i=0;i<Math.ceil(W/CW)+3;i++)candles.push(nextC())}
+      if(mode==='candles'||mode==='chart'){CW=mode==='chart'?(W<600?16:22):26;candles=[];price=H*.55;for(var i=0;i<Math.ceil(W/CW)+4;i++)candles.push(nextC())}
       draw(0);
     }
     function draw(t){
       ctx.clearRect(0,0,W,H);
-      if(mode==='candles'){
+      if(mode==='chart'){
+        /* 오로라 글로우 */
+        [[.2,.3,.45,'124,58,237',.26],[.82,.25,.4,'99,102,241',.18],[.55,.95,.5,'124,58,237',.14]].forEach(function(b,i){
+          var gx=(b[0]+Math.sin(t*.12+i*2)*.1)*W,gy=(b[1]+Math.cos(t*.1+i)*.1)*H,r=b[2]*Math.max(W,H)*.7,g=ctx.createRadialGradient(gx,gy,0,gx,gy,r);
+          g.addColorStop(0,'rgba('+b[3]+','+b[4]+')');g.addColorStop(1,'rgba('+b[3]+',0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+        });
+        /* 가격 격자 */
+        ctx.strokeStyle='rgba(167,139,250,.07)';ctx.lineWidth=1;
+        for(var gy2=1;gy2<7;gy2++){ctx.beginPath();ctx.moveTo(0,H*gy2/7);ctx.lineTo(W,H*gy2/7);ctx.stroke()}
+        var n=candles.length,ups=[],lows=[],mas=[],mas2=[];
+        for(var j=0;j<n;j++){
+          var a=Math.max(0,j-9),mx=1e9,mn=-1e9,sm=0,sm2=0,c2=0;
+          for(var q=a;q<=j;q++){mx=Math.min(mx,candles[q].h);mn=Math.max(mn,candles[q].l);sm+=candles[q].c;c2++}
+          ups.push(mx-H*.035);lows.push(mn+H*.035);mas.push(sm/c2);
+          var b2=Math.max(0,j-4),s3=0,c3=0;for(var q2=b2;q2<=j;q2++){s3+=candles[q2].c;c3++}mas2.push(s3/c3);
+        }
+        var xs=function(i){return i*CW-off+CW/2};
+        /* 위 밴드(파랑) / 아래 밴드(빨강) 계단 */
+        function band(arr,rgb,fillTo){
+          ctx.beginPath();ctx.moveTo(xs(0)-CW/2,arr[0]);
+          for(var i=0;i<n;i++){ctx.lineTo(xs(i)-CW/2,arr[i]);ctx.lineTo(xs(i)+CW/2,arr[i])}
+          ctx.strokeStyle='rgba('+rgb+',.55)';ctx.lineWidth=1.5;ctx.stroke();
+          ctx.lineTo(xs(n-1)+CW/2,fillTo);ctx.lineTo(xs(0)-CW/2,fillTo);ctx.closePath();
+          ctx.fillStyle='rgba('+rgb+',.07)';ctx.fill();
+        }
+        band(ups,'99,120,255',0);band(lows,'255,92,92',H);
+        /* 캔들 */
+        for(var i3=0;i3<n;i3++){
+          var k2=candles[i3],x2=xs(i3),dn=k2.c<k2.o,col2=dn?'255,92,92':'99,120,255';
+          ctx.strokeStyle='rgba('+col2+',.55)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x2,k2.h);ctx.lineTo(x2,k2.l);ctx.stroke();
+          ctx.fillStyle='rgba('+col2+',.62)';ctx.fillRect(x2-CW*.28,Math.min(k2.o,k2.c),CW*.56,Math.max(2,Math.abs(k2.c-k2.o)));
+        }
+        /* 이동평균선 */
+        [[mas,'196,181,253',2],[mas2,'255,255,255',1.2]].forEach(function(m){
+          ctx.beginPath();for(var i=0;i<n;i++){i?ctx.lineTo(xs(i),m[0][i]):ctx.moveTo(xs(i),m[0][i])}
+          ctx.strokeStyle='rgba('+m[1]+',.7)';ctx.lineWidth=m[2];ctx.shadowColor='rgba(167,139,250,.8)';ctx.shadowBlur=m[2]>1.5?12:0;ctx.stroke();ctx.shadowBlur=0;
+        });
+        /* 신호 화살표 (파랑 하락 / 빨강 상승 — 교육용 도식) */
+        for(var i4=6;i4<n-2;i4+=9){
+          var up=((i4*7+shifted)%3===0),xx=xs(i4),yy=up?candles[i4].l+16:candles[i4].h-16;
+          ctx.fillStyle=up?'rgba(255,92,92,.85)':'rgba(99,120,255,.85)';ctx.beginPath();
+          if(up){ctx.moveTo(xx,yy-8);ctx.lineTo(xx-6,yy+3);ctx.lineTo(xx+6,yy+3)}else{ctx.moveTo(xx,yy+8);ctx.lineTo(xx-6,yy-3);ctx.lineTo(xx+6,yy-3)}
+          ctx.closePath();ctx.fill();
+        }
+        /* 현재가 라인 + 펄스 점 */
+        var ly=mas2[n-3],lx=xs(n-3);
+        ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(196,181,253,.45)';ctx.beginPath();ctx.moveTo(0,ly);ctx.lineTo(W,ly);ctx.stroke();ctx.setLineDash([]);
+        var pr=5+Math.sin(t*3)*2;ctx.fillStyle='rgba(196,181,253,.25)';ctx.beginPath();ctx.arc(lx,ly,pr+6,0,7);ctx.fill();
+        ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(lx,ly,3.5,0,7);ctx.fill();
+        /* 가독성용 중앙 어둡게 */
+        var vg=ctx.createRadialGradient(W/2,H*.42,0,W/2,H*.42,Math.max(W,H)*.62);
+        vg.addColorStop(0,'rgba(5,3,10,.5)');vg.addColorStop(1,'rgba(5,3,10,0)');ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
+      }else if(mode==='candles'){
         for(var i=0;i<candles.length;i++){
           var k=candles[i],x=i*CW-off+CW/2,hl=(i%7===0),col=k.c<k.o?'255,69,58':'10,132,255';
           ctx.strokeStyle='rgba(255,255,255,.14)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,k.h);ctx.lineTo(x,k.l);ctx.stroke();
@@ -855,7 +909,7 @@ input[type=checkbox]{accent-color:#8b5cf6}
     function loop(now){
       if(!vis){raf=0;return}
       var t=(now-t0)/1000;
-      if(mode==='candles'){var s=Math.floor(t*14/CW);while(shifted<s){candles.shift();candles.push(nextC());shifted++}off=(t*14)%CW}
+      if(mode==='candles'||mode==='chart'){var sp=mode==='chart'?30:14;var s=Math.floor(t*sp/CW);while(shifted<s){candles.shift();candles.push(nextC());shifted++}off=(t*sp)%CW}
       draw(t);raf=requestAnimationFrame(loop);
     }
     if('ResizeObserver' in window)new ResizeObserver(resize).observe(section);else addEventListener('resize',resize);
